@@ -1,4 +1,4 @@
 xquery-saxon
 ============
 
-Build Status [![Build Status](https://alaczynski.ci.cloudbees.com/buildStatus/icon?job=xquery-saxon)](https://alaczynski.ci.cloudbees.com/job/xquery-saxon/)
+[![Build Status](https://buildhive.cloudbees.com/job/alaczynski/job/xquery-saxon/badge/icon)](https://buildhive.cloudbees.com/job/alaczynski/job/xquery-saxon/)
