@@ -1,26 +1,26 @@
 package org.xquery.saxon.coverage.collect;
 
-import org.xquery.saxon.coverage.report.ExpressionReport;
+import org.xquery.saxon.coverage.report.InstructionReport;
 import org.xquery.saxon.coverage.report.LineReport;
 import org.xquery.saxon.coverage.report.ModuleReport;
 import org.xquery.saxon.coverage.report.Report;
 import org.xquery.saxon.coverage.trace.CoverageExpression;
-import org.xquery.saxon.coverage.trace.CoverageExpressionCreatedEvent;
-import org.xquery.saxon.coverage.trace.CoverageExpressionEventHandler;
-import org.xquery.saxon.coverage.trace.CoverageExpressionInvokedEvent;
+import org.xquery.saxon.coverage.trace.CoverageInstructionCreatedEvent;
+import org.xquery.saxon.coverage.trace.CoverageInstructionEventHandler;
+import org.xquery.saxon.coverage.trace.CoverageInstructionInvokedEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultCoverageExpressionEventHandler implements CoverageExpressionEventHandler {
+public class DefaultCoverageInstructionEventHandler implements CoverageInstructionEventHandler {
 
     private Map<String, ModuleCollector> modulesCollector = new HashMap<String, ModuleCollector>();
-    private Map<CoverageExpression, ExpressionCollector> expressionsCollector = new HashMap<CoverageExpression, ExpressionCollector>();
+    private Map<CoverageExpression, InstructionCollector> instructionCollector = new HashMap<CoverageExpression, InstructionCollector>();
 
-    public void handle(CoverageExpressionCreatedEvent event) {
-        ExpressionCollector expressionCollector = getModuleCollector(event.getQueryModule().getSystemId())
-                .expressionCreated(event.getExpression());
-        expressionsCollector.put(event.getExpression(), expressionCollector);
+    public void handle(CoverageInstructionCreatedEvent event) {
+        InstructionCollector instructionCollector = getModuleCollector(event.getQueryModule().getSystemId())
+                .instructionCreated(event.getInstruction());
+        this.instructionCollector.put(event.getInstruction(), instructionCollector);
     }
 
     private ModuleCollector getModuleCollector(String module) {
@@ -32,8 +32,8 @@ public class DefaultCoverageExpressionEventHandler implements CoverageExpression
         return moduleCollector;
     }
 
-    public void handle(CoverageExpressionInvokedEvent event) {
-        expressionsCollector.get(event.getExpression()).expressionInvoked();
+    public void handle(CoverageInstructionInvokedEvent event) {
+        instructionCollector.get(event.getInstruction()).instructionInvoked();
     }
 
     public Report getReport() {
@@ -44,8 +44,8 @@ public class DefaultCoverageExpressionEventHandler implements CoverageExpression
             for (LineCollector lineCollector : moduleCollector.getLineCollectors()) {
                 LineReport lineReport = new LineReport(lineCollector.getLineNumber());
                 moduleReport.getLineReports().add(lineReport);
-                for (ExpressionCollector expressionCollector : lineCollector.getExpressionCollectors()) {
-                    lineReport.getExpressionCoverageReports().add(new ExpressionReport(expressionCollector.getExpression(), expressionCollector.isExpressionInvoked()));
+                for (InstructionCollector instructionCollector : lineCollector.getInstructionCollectors()) {
+                    lineReport.getInstructionCoverageReports().add(new InstructionReport(instructionCollector.getInstruction(), instructionCollector.isInstructionInvoked()));
                 }
             }
         }

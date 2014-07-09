@@ -8,11 +8,11 @@ import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.query.QueryModule;
 import net.sf.saxon.trace.TraceCodeInjector;
 
-public class CoverageExpressionInjector extends TraceCodeInjector {
+public class CoverageInstructionInjector extends TraceCodeInjector {
 
-    private final CoverageExpressionEventHandler eventHandler;
+    private final CoverageInstructionEventHandler eventHandler;
 
-    public CoverageExpressionInjector(CoverageExpressionEventHandler eventHandler) {
+    public CoverageInstructionInjector(CoverageInstructionEventHandler eventHandler) {
         this.eventHandler = eventHandler;
     }
 
@@ -22,7 +22,7 @@ public class CoverageExpressionInjector extends TraceCodeInjector {
         coverageExpression.setNamespaceResolver(env.getNamespaceResolver());
         coverageExpression.setConstructType(construct);
         coverageExpression.setObjectName(qName);
-        eventHandler.handle(new CoverageExpressionCreatedEvent(coverageExpression, (QueryModule) env));
+        eventHandler.handle(new CoverageInstructionCreatedEvent(coverageExpression, (QueryModule) env));
         return coverageExpression;
     }
 

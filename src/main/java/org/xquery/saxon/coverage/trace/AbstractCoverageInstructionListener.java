@@ -4,7 +4,7 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.expr.flwor.ClauseInfo;
 import net.sf.saxon.trace.InstructionInfo;
 
-public abstract class AbstractCoverageExpressionListener extends TraceListenerAdapter {
+public abstract class AbstractCoverageInstructionListener extends TraceListenerAdapter {
 
     @Override
     public void enter(InstructionInfo instruction, XPathContext context) {
@@ -17,5 +17,5 @@ public abstract class AbstractCoverageExpressionListener extends TraceListenerAd
         }
     }
 
-    protected abstract void enter(CoverageExpression expression);
+    protected abstract void enter(CoverageExpression instruction);
 }

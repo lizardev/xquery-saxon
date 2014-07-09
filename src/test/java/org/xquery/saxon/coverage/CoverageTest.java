@@ -16,8 +16,8 @@ public class CoverageTest {
     @Test
     public void testCoverageOfTourModule() {
         CoverageService coverageService = new CoverageService();
-        XQueryExecutor xQueryExecutor = new XQueryExecutor(coverageService.getCoverageExpressionInjector(),
-                coverageService.getCoverageExpressionListener());
+        XQueryExecutor xQueryExecutor = new XQueryExecutor(coverageService.getCoverageInstructionInjector(),
+                coverageService.getCoverageInstructionListener());
 
         xQueryExecutor.execute("/tour.xq");
 
@@ -27,8 +27,8 @@ public class CoverageTest {
     @Test
     public void testCoverageOfTestModule() {
         CoverageService coverageService = new CoverageService();
-        XQueryExecutor xQueryExecutor = new XQueryExecutor(coverageService.getCoverageExpressionInjector(),
-                coverageService.getCoverageExpressionListener());
+        XQueryExecutor xQueryExecutor = new XQueryExecutor(coverageService.getCoverageInstructionInjector(),
+                coverageService.getCoverageInstructionListener());
 
         xQueryExecutor.execute("/test.xq");
 

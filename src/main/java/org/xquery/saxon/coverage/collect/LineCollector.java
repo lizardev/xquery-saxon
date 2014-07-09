@@ -9,27 +9,27 @@ import java.util.Map;
 public class LineCollector {
 
     private final int lineNumber;
-    private Map<CoverageExpression, ExpressionCollector> expressionsCollector = new HashMap<CoverageExpression, ExpressionCollector>();
+    private Map<CoverageExpression, InstructionCollector> instructionCollector = new HashMap<CoverageExpression, InstructionCollector>();
 
     public LineCollector(int lineNumber) {
         this.lineNumber = lineNumber;
     }
 
-    public ExpressionCollector expressionCreated(CoverageExpression expression) {
-        return getExpressionCollector(expression);
+    public InstructionCollector instructionCreated(CoverageExpression instruction) {
+        return getInstructionCollector(instruction);
     }
 
-    private ExpressionCollector getExpressionCollector(CoverageExpression expression) {
-        ExpressionCollector expressionCollector = expressionsCollector.get(expression);
-        if (expressionCollector == null) {
-            expressionCollector = new ExpressionCollector(expression);
-            expressionsCollector.put(expression, expressionCollector);
+    private InstructionCollector getInstructionCollector(CoverageExpression instruction) {
+        InstructionCollector instructionCollector = this.instructionCollector.get(instruction);
+        if (instructionCollector == null) {
+            instructionCollector = new InstructionCollector(instruction);
+            this.instructionCollector.put(instruction, instructionCollector);
         }
-        return expressionCollector;
+        return instructionCollector;
     }
 
-    public Collection<ExpressionCollector> getExpressionCollectors() {
-        return expressionsCollector.values();
+    public Collection<InstructionCollector> getInstructionCollectors() {
+        return instructionCollector.values();
     }
 
     public int getLineNumber() {

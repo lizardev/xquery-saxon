@@ -15,8 +15,8 @@ public class ModuleCollector {
         this.module = module;
     }
 
-    public ExpressionCollector expressionCreated(CoverageExpression expression) {
-        return getLineCollector(expression.getLineNumber()).expressionCreated(expression);
+    public InstructionCollector instructionCreated(CoverageExpression instruction) {
+        return getLineCollector(instruction.getLineNumber()).instructionCreated(instruction);
     }
 
     private LineCollector getLineCollector(int lineNumber) {
