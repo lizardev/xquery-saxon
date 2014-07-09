@@ -9,7 +9,7 @@ public class CoverageInstructionListener extends AbstractCoverageInstructionList
     }
 
     @Override
-    protected void enter(CoverageExpression instruction) {
-        eventHandler.handle(new CoverageInstructionInvokedEvent(instruction));
+    protected void enter(Identifier identifier) {
+        eventHandler.handle(new CoverageInstructionInvokedEvent(identifier));
     }
 }

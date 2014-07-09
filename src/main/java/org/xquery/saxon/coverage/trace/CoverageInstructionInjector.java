@@ -10,24 +10,27 @@ import net.sf.saxon.trace.TraceCodeInjector;
 
 public class CoverageInstructionInjector extends TraceCodeInjector {
 
-    private final CoverageInstructionEventHandler eventHandler;
+	private final CoverageInstructionEventHandler eventHandler;
 
-    public CoverageInstructionInjector(CoverageInstructionEventHandler eventHandler) {
-        this.eventHandler = eventHandler;
-    }
+	public CoverageInstructionInjector(CoverageInstructionEventHandler eventHandler) {
+		this.eventHandler = eventHandler;
+	}
 
-    @Override
-    public Expression inject(Expression exp, StaticContext env, int construct, StructuredQName qName) {
-        CoverageExpression coverageExpression = new CoverageExpression(exp);
-        coverageExpression.setNamespaceResolver(env.getNamespaceResolver());
-        coverageExpression.setConstructType(construct);
-        coverageExpression.setObjectName(qName);
-        eventHandler.handle(new CoverageInstructionCreatedEvent(coverageExpression, (QueryModule) env));
-        return coverageExpression;
-    }
+	@Override
+	public Expression inject(Expression expression, StaticContext env, int construct, StructuredQName qName) {
+		CoverageExpression coverageExpression = new CoverageExpression(expression);
+		coverageExpression.setNamespaceResolver(env.getNamespaceResolver());
+		coverageExpression.setConstructType(construct);
+		coverageExpression.setObjectName(qName);
+		eventHandler.handle(new CoverageInstructionCreatedEvent(coverageExpression, (QueryModule) env));
+		return coverageExpression;
+	}
 
-    @Override
-    public Clause injectClause(Clause target, StaticContext env, Container container) {
-        return target;
-    }
+	@Override
+	public Clause injectClause(Clause clause, StaticContext env, Container container) {
+		CoverageClause coverageClause = new CoverageClause(clause, env.getNamespaceResolver(), container);
+		eventHandler.handle(new CoverageInstructionCreatedEvent(coverageClause, (QueryModule) env));
+		return coverageClause;
+	}
+
 }

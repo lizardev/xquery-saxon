@@ -2,13 +2,13 @@ package org.xquery.saxon.coverage.trace;
 
 public class CoverageInstructionInvokedEvent {
 
-    private final CoverageExpression instruction;
+	private Identifier identifier;
 
-    public CoverageInstructionInvokedEvent(CoverageExpression instruction) {
-        this.instruction = instruction;
+	public CoverageInstructionInvokedEvent(Identifier identifier) {
+        this.identifier = identifier;
     }
 
-    public CoverageExpression getInstruction() {
-        return instruction;
-    }
+	public Identifier getIdentifier() {
+		return identifier;
+	}
 }

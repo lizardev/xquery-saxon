@@ -12,11 +12,11 @@ import static net.sf.saxon.lib.FeatureKeys.OPTIMIZATION_LEVEL;
 public class XQueryExecutor {
 
     private final XQueryCompiler xQueryCompiler;
-    private final CoverageInstructionListener coverageExpressionListener;
+    private final CoverageInstructionListener coverageInstructionListener;
 
     public XQueryExecutor(CoverageInstructionInjector coverageInstructionInjector,
-            CoverageInstructionListener coverageExpressionListener) {
-        this.coverageExpressionListener = coverageExpressionListener;
+            CoverageInstructionListener coverageInstructionListener) {
+        this.coverageInstructionListener = coverageInstructionListener;
         Configuration configuration = Configuration.newConfiguration();
         configuration.setConfigurationProperty(OPTIMIZATION_LEVEL, String.valueOf(NO_OPTIMIZATION));
         Processor processor = new Processor(configuration);
@@ -29,7 +29,7 @@ public class XQueryExecutor {
         try {
             XQueryExecutable executable = xQueryCompiler.compile(Utils.resourceAsFile(mainModuleResource));
             XQueryEvaluator evaluator = executable.load();
-            evaluator.setTraceListener(coverageExpressionListener);
+            evaluator.setTraceListener(coverageInstructionListener);
             return evaluator.evaluate();
         } catch (Exception e) {
             throw new RuntimeException(e);

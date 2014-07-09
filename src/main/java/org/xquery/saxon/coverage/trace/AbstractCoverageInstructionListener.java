@@ -6,16 +6,16 @@ import net.sf.saxon.trace.InstructionInfo;
 
 public abstract class AbstractCoverageInstructionListener extends TraceListenerAdapter {
 
-    @Override
-    public void enter(InstructionInfo instruction, XPathContext context) {
-        if (instruction instanceof CoverageExpression) {
-            enter((CoverageExpression) instruction);
-        } else if (instruction instanceof ClauseInfo) {
-            // TODO: investigate
-        } else {
-            // TODO: investigate
-        }
-    }
+	@Override
+	public void enter(InstructionInfo instruction, XPathContext context) {
+		if (instruction instanceof CoverageExpression) {
+			enter(new Identifier(instruction));
+		} else if (instruction instanceof ClauseInfo) {
+			enter(new Identifier(((ClauseInfo) instruction).getClause()));
+		} else {
+			// TODO: investigate
+		}
+	}
 
-    protected abstract void enter(CoverageExpression instruction);
+	protected abstract void enter(Identifier instruction);
 }
