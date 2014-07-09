@@ -1,6 +1,6 @@
 package org.xquery.saxon.coverage.collect;
 
-import org.xquery.saxon.coverage.trace.CoverageExpression;
+import org.xquery.saxon.coverage.trace.CoverageInstruction;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,8 +15,8 @@ public class ModuleCollector {
         this.module = module;
     }
 
-    public ExpressionCollector expressionCreated(CoverageExpression expression) {
-        return getLineCollector(expression.getLineNumber()).expressionCreated(expression);
+    public InstructionCollector instructionCreated(CoverageInstruction instruction) {
+        return getLineCollector(instruction.getLineNumber()).instructionCreated(instruction);
     }
 
     private LineCollector getLineCollector(int lineNumber) {

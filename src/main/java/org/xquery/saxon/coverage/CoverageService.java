@@ -1,31 +1,31 @@
 package org.xquery.saxon.coverage;
 
-import org.xquery.saxon.coverage.collect.DefaultCoverageExpressionEventHandler;
+import org.xquery.saxon.coverage.collect.DefaultCoverageInstructionEventHandler;
 import org.xquery.saxon.coverage.report.Report;
-import org.xquery.saxon.coverage.trace.CoverageExpressionInjector;
-import org.xquery.saxon.coverage.trace.CoverageExpressionListener;
+import org.xquery.saxon.coverage.trace.CoverageInstructionInjector;
+import org.xquery.saxon.coverage.trace.CoverageInstructionListener;
 
 public class CoverageService {
 
-    private final DefaultCoverageExpressionEventHandler defaultCoverageExpressionEventHandler;
-    private final CoverageExpressionInjector coverageExpressionInjector;
-    private final CoverageExpressionListener coverageExpressionListener;
+    private final DefaultCoverageInstructionEventHandler defaultCoverageInstructionEventHandler;
+    private final CoverageInstructionInjector coverageInstructionInjector;
+    private final CoverageInstructionListener coverageInstructionListener;
 
     public CoverageService() {
-        defaultCoverageExpressionEventHandler = new DefaultCoverageExpressionEventHandler();
-        coverageExpressionInjector = new CoverageExpressionInjector(defaultCoverageExpressionEventHandler);
-        coverageExpressionListener = new CoverageExpressionListener(defaultCoverageExpressionEventHandler);
+        defaultCoverageInstructionEventHandler = new DefaultCoverageInstructionEventHandler();
+        coverageInstructionInjector = new CoverageInstructionInjector(defaultCoverageInstructionEventHandler);
+        coverageInstructionListener = new CoverageInstructionListener(defaultCoverageInstructionEventHandler);
     }
 
-    public CoverageExpressionInjector getCoverageExpressionInjector() {
-        return coverageExpressionInjector;
+    public CoverageInstructionInjector getCoverageInstructionInjector() {
+        return coverageInstructionInjector;
     }
 
-    public CoverageExpressionListener getCoverageExpressionListener() {
-        return coverageExpressionListener;
+    public CoverageInstructionListener getCoverageInstructionListener() {
+        return coverageInstructionListener;
     }
 
     public Report getReport() {
-        return defaultCoverageExpressionEventHandler.getReport();
+        return defaultCoverageInstructionEventHandler.getReport();
     }
 }

@@ -6,14 +6,14 @@ import java.util.List;
 public class LineReport {
 
     private int lineNumber;
-    private List<ExpressionReport> expressionCoverageReports = new ArrayList<ExpressionReport>();
+    private List<InstructionReport> instructionCoverageReports = new ArrayList<InstructionReport>();
 
     public LineReport(int lineNumber) {
         this.lineNumber = lineNumber;
     }
 
-    public List<ExpressionReport> getExpressionCoverageReports() {
-        return expressionCoverageReports;
+    public List<InstructionReport> getInstructionCoverageReports() {
+        return instructionCoverageReports;
     }
 
     public int getLineNumber() {
@@ -21,8 +21,8 @@ public class LineReport {
     }
 
     public boolean isFullyCovered() {
-        for (ExpressionReport expressionCoverageReport : expressionCoverageReports) {
-            if (!expressionCoverageReport.isCovered()) {
+        for (InstructionReport instructionCoverageReport : instructionCoverageReports) {
+            if (!instructionCoverageReport.isCovered()) {
                 return false;
             }
         }
@@ -33,7 +33,7 @@ public class LineReport {
     public String toString() {
         return "LineReport{" +
                 "lineNumber=" + lineNumber +
-                ", expressionCoverageReports=" + expressionCoverageReports +
+                ", instructionCoverageReports=" + instructionCoverageReports +
                 '}';
     }
 }
