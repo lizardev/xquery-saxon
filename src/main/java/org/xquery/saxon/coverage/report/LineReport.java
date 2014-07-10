@@ -1,39 +1,40 @@
 package org.xquery.saxon.coverage.report;
 
-import java.util.ArrayList;
+import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.List;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class LineReport {
 
-    private int lineNumber;
-    private List<InstructionReport> instructionCoverageReports = new ArrayList<InstructionReport>();
+	private final int lineNumber;
+	private final List<InstructionReport> instructionReports;
 
-    public LineReport(int lineNumber) {
-        this.lineNumber = lineNumber;
-    }
+	public LineReport(int lineNumber, List<InstructionReport> instructionReports) {
+		this.lineNumber = lineNumber;
+		this.instructionReports = ImmutableList.copyOf(instructionReports);
+	}
 
-    public List<InstructionReport> getInstructionCoverageReports() {
-        return instructionCoverageReports;
-    }
+	public int getLineNumber() {
+		return lineNumber;
+	}
 
-    public int getLineNumber() {
-        return lineNumber;
-    }
+	public boolean isFullyCovered() {
+		for (InstructionReport instructionReport : instructionReports) {
+			if (!instructionReport.isCovered()) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    public boolean isFullyCovered() {
-        for (InstructionReport instructionCoverageReport : instructionCoverageReports) {
-            if (!instructionCoverageReport.isCovered()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "LineReport{" +
-                "lineNumber=" + lineNumber +
-                ", instructionCoverageReports=" + instructionCoverageReports +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
+				.append("lineNumber", lineNumber)
+				.append("instructionCoverageReports" + instructionReports)
+				.build();
+	}
 }

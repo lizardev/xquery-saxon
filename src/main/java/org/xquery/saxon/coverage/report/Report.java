@@ -6,17 +6,17 @@ import java.util.Map;
 
 public class Report {
 
-    Map<String, ModuleReport> moduleReports = new HashMap<String, ModuleReport>();
+	private Map<String, ModuleReport> moduleReports = new HashMap<String, ModuleReport>();
 
-    public void addModuleReport(ModuleReport moduleReport) {
-        moduleReports.put(moduleReport.getModule(), moduleReport);
-    }
+	public void addModuleReport(ModuleReport moduleReport) {
+		moduleReports.put(moduleReport.getModule(), moduleReport);
+	}
 
-    public ModuleReport getModuleReport(String module) {
-        return moduleReports.get(module);
-    }
+	public ModuleReport getModuleReport(String module) {
+		return moduleReports.get(module);
+	}
 
-    public Collection<ModuleReport> getModuleReports() {
-        return moduleReports.values();
-    }
+	public Collection<ModuleReport> getModuleReports() {
+		return moduleReports.values();
+	}
 }
