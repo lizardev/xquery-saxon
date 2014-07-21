@@ -38,7 +38,7 @@ public class CoverageService {
             }
 
             @Override
-            public boolean supportsOptimization() {
+            public boolean allowsOptimization() {
                 return false;
             }
         };

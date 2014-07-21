@@ -16,7 +16,7 @@ public class XQueryExecutor {
     public XQueryExecutor(TraceProvider traceProvider) {
         this.traceProvider = traceProvider;
         Configuration configuration = Configuration.newConfiguration();
-        if (!traceProvider.supportsOptimization()) {
+        if (!traceProvider.allowsOptimization()) {
             configuration.setConfigurationProperty(OPTIMIZATION_LEVEL, String.valueOf(NO_OPTIMIZATION));
         }
         Processor processor = new Processor(configuration);

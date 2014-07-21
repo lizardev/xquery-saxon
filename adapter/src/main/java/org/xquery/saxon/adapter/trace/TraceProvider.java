@@ -9,5 +9,5 @@ public interface TraceProvider {
 
     TraceListener getTraceListener();
 
-    boolean supportsOptimization();
+    boolean allowsOptimization();
 }
