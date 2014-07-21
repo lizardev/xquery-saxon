@@ -1,5 +1,8 @@
 package org.xquery.saxon.coverage;
 
+import net.sf.saxon.lib.TraceListener;
+import net.sf.saxon.trace.TraceCodeInjector;
+import org.xquery.saxon.adapter.trace.TraceProvider;
 import org.xquery.saxon.coverage.collect.DefaultCoverageInstructionEventHandler;
 import org.xquery.saxon.coverage.report.Report;
 import org.xquery.saxon.coverage.trace.CoverageInstructionInjector;
@@ -17,15 +20,27 @@ public class CoverageService {
         coverageInstructionListener = new CoverageInstructionListener(defaultCoverageInstructionEventHandler);
     }
 
-    public CoverageInstructionInjector getCoverageInstructionInjector() {
-        return coverageInstructionInjector;
-    }
-
-    public CoverageInstructionListener getCoverageInstructionListener() {
-        return coverageInstructionListener;
-    }
-
     public Report getReport() {
         return defaultCoverageInstructionEventHandler.getReport();
+    }
+
+    public TraceProvider getTraceProvider() {
+        return new TraceProvider() {
+
+            @Override
+            public TraceCodeInjector getTraceCodeInjector() {
+                return coverageInstructionInjector;
+            }
+
+            @Override
+            public TraceListener getTraceListener() {
+                return coverageInstructionListener;
+            }
+
+            @Override
+            public boolean supportsOptimization() {
+                return false;
+            }
+        };
     }
 }
