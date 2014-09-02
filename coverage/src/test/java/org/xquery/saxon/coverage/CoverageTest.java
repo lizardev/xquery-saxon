@@ -45,6 +45,17 @@ public class CoverageTest {
 
     }
 
+    @Test
+    public void functionsModuleShouldBeFullyCovered() {
+        xQueryExecutor.execute("/functions.xq");
+
+        assertThat(coverageService.getReport().getModuleReports(), hasSize(1));
+        ModuleReport moduleReport = Iterables.getFirst(coverageService.getReport().getModuleReports(), null);
+        assertThat(moduleReport.getNotFullyCoveredLines(), empty());
+        assertThat(moduleReport.getLineCoverage(), is(closeTo(1.0, 0.01)));
+
+    }
+
     private static Matcher<LineReport> line(final int lineNumber) {
         return new CustomTypeSafeMatcher<LineReport>("line report with line number = " + lineNumber) {
 
