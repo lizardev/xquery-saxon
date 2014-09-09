@@ -1,10 +1,13 @@
 package org.xquery.saxon.coverage;
 
 import com.google.common.collect.Iterables;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
+import org.xquery.saxon.adapter.trace.SpiTraceExtensionProvider;
+import org.xquery.saxon.adapter.trace.TraceExtension;
 import org.xquery.saxon.coverage.report.LineReport;
 import org.xquery.saxon.coverage.report.ModuleReport;
 import org.xquery.saxon.coverage.util.XQueryExecutor;
@@ -20,7 +23,9 @@ public class CoverageTest {
     @Before
     public void initializeExecutorWithCoverage() {
         coverageService = new CoverageService();
-        xQueryExecutor = new XQueryExecutor(coverageService.getTraceProvider());
+        xQueryExecutor = new XQueryExecutor(new CoverageTraceExtension(
+                coverageService.getCoverageInstructionInjector(),
+                coverageService.getCoverageInstructionListener()));
     }
 
     @Test
@@ -53,7 +58,18 @@ public class CoverageTest {
         ModuleReport moduleReport = Iterables.getFirst(coverageService.getReport().getModuleReports(), null);
         assertThat(moduleReport.getNotFullyCoveredLines(), empty());
         assertThat(moduleReport.getLineCoverage(), is(closeTo(1.0, 0.01)));
+    }
 
+    @Test
+    public void shouldCreateSpiCoverageTraceExtensionProvider() throws IllegalAccessException {
+        FieldUtils.writeStaticField(CoverageService.class, "instance", null, true);
+        TraceExtension traceExtension = new SpiTraceExtensionProvider().getTraceExtension();
+        XQueryExecutor xQueryExecutor = new XQueryExecutor(traceExtension);
+
+        xQueryExecutor.execute("/test.xq");
+        ModuleReport moduleReport = Iterables.getFirst(CoverageService.getInstance().getReport().getModuleReports(), null);
+        assertThat(moduleReport.getNotFullyCoveredLines(), contains(line(6)));
+        assertThat(moduleReport.getLineCoverage(), is(closeTo(0.80, 0.01)));
     }
 
     private static Matcher<LineReport> line(final int lineNumber) {
