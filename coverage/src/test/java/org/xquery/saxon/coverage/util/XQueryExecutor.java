@@ -11,6 +11,7 @@ import static net.sf.saxon.lib.FeatureKeys.OPTIMIZATION_LEVEL;
 public class XQueryExecutor {
 
     private final XQueryCompiler xQueryCompiler;
+    private final XdmValueConverter xdmValueConverter = new XdmValueConverter();
     private final TraceExtension traceExtension;
 
     public XQueryExecutor(TraceExtension traceExtension) {
@@ -25,12 +26,20 @@ public class XQueryExecutor {
         staticQueryContext.setCodeInjector(traceExtension.getTraceCodeInjector());
     }
 
-    public XdmValue execute(String mainModuleResource) {
+    public <T> T execute(String mainModuleResource) {
+        return execute(mainModuleResource, new ExecutionContext());
+    }
+
+    public <T> T execute(String mainModuleResource, ExecutionContext context) {
         try {
             XQueryExecutable executable = xQueryCompiler.compile(Utils.resourceAsFile(mainModuleResource));
             XQueryEvaluator evaluator = executable.load();
+            for (ExternalVariable externalVariable : context.getExternalVariables()) {
+                evaluator.setExternalVariable(externalVariable.getName(), new XdmAtomicValue(externalVariable.getValue()));
+            }
             evaluator.setTraceListener(traceExtension.getTraceListener());
-            return evaluator.evaluate();
+            XdmValue result = evaluator.evaluate();
+            return xdmValueConverter.convert(result);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

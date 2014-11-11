@@ -3,7 +3,6 @@ package org.xquery.saxon.coverage.report;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ModuleReport {
@@ -13,7 +12,7 @@ public class ModuleReport {
 
     public ModuleReport(String module, List<LineReport> lineReports) {
         this.module = module;
-		this.lineReports = ImmutableList.copyOf(lineReports);
+        this.lineReports = ImmutableList.copyOf(lineReports);
     }
 
     public String getModule() {
@@ -24,7 +23,7 @@ public class ModuleReport {
         return lineReports;
     }
 
-    public Collection<LineReport> getNotFullyCoveredLines() {
+    public List<LineReport> getNotFullyCoveredLines() {
         ArrayList<LineReport> lines = new ArrayList<LineReport>(lineReports.size());
         for (LineReport lineReport : lineReports) {
             if (!lineReport.isFullyCovered()) {
@@ -51,5 +50,14 @@ public class ModuleReport {
             }
         }
         return (double) coveredLines / lineReports.size();
+    }
+
+    public boolean isFullyCovered() {
+        for (LineReport lineReport : lineReports) {
+            if (!lineReport.isFullyCovered()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
