@@ -20,7 +20,6 @@ declare function composite($first, $second) {
 };
 
 
-
 composite(fn:true(), fn:false()),
 composite(fn:true(), fn:true()),
 composite(fn:false(), fn:false())

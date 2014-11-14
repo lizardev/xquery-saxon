@@ -1,5 +1,7 @@
 package org.xquery.saxon.coverage.collect;
 
+import net.sf.saxon.query.QueryModule;
+import org.xquery.saxon.coverage.ModuleUri;
 import org.xquery.saxon.coverage.report.InstructionReport;
 import org.xquery.saxon.coverage.report.LineReport;
 import org.xquery.saxon.coverage.report.ModuleReport;
@@ -16,49 +18,59 @@ import java.util.Map;
 
 public class DefaultCoverageInstructionEventHandler implements CoverageInstructionEventHandler {
 
-	private Map<String, ModuleCollector> modulesCollector = new HashMap<String, ModuleCollector>();
-	private Map<Identifier, InstructionCollector> instructionCollectors = new HashMap<Identifier, InstructionCollector>();
+    private Map<ModuleUri, ModuleCollector> modulesCollector = new HashMap<>();
+    private Map<Identifier, InstructionCollector> instructionCollectors = new HashMap<>();
 
-	public void handle(CoverageInstructionCreatedEvent event) {
-		InstructionCollector instructionCollector = getModuleCollector(event.getQueryModule().getSystemId())
-				.instructionCreated(event.getInstruction());
-		instructionCollectors.put(event.getInstruction().getIdentifier(), instructionCollector);
-	}
+    public void handle(CoverageInstructionCreatedEvent event) {
+        InstructionCollector instructionCollector = getModuleCollector(getModuleUri(event.getQueryModule()))
+                .instructionCreated(event.getInstruction());
+        instructionCollectors.put(event.getInstruction().getIdentifier(), instructionCollector);
+    }
 
-	private ModuleCollector getModuleCollector(String module) {
-		ModuleCollector moduleCollector = modulesCollector.get(module);
-		if (moduleCollector == null) {
-			moduleCollector = new ModuleCollector(module);
-			modulesCollector.put(module, moduleCollector);
-		}
-		return moduleCollector;
-	}
+    private ModuleUri getModuleUri(QueryModule queryModule) {
+        if (queryModule.getLocationURI() == null) {
+            return null;
+        } else {
+            return ModuleUri.fromUri(queryModule.getLocationURI());
+        }
+    }
 
-	public void handle(CoverageInstructionInvokedEvent event) {
-		instructionCollectors.get(event.getIdentifier()).instructionInvoked();
-	}
+    public void handle(CoverageInstructionInvokedEvent event) {
+        instructionCollectors.get(event.getIdentifier()).instructionInvoked();
+    }
 
-	public Report getReport() {
-		Report report = new Report();
-		for (ModuleCollector moduleCollector : modulesCollector.values()) {
-			report.addModuleReport(getModuleReport(moduleCollector));
-		}
-		return report;
-	}
+    private ModuleCollector getModuleCollector(ModuleUri module) {
+        ModuleCollector moduleCollector = modulesCollector.get(module);
+        if (moduleCollector == null) {
+            moduleCollector = new ModuleCollector(module);
+            modulesCollector.put(module, moduleCollector);
+        }
+        return moduleCollector;
+    }
 
-	private ModuleReport getModuleReport(ModuleCollector moduleCollector) {
-		List<LineReport> lineReports = new ArrayList<LineReport>();
-		for (LineCollector lineCollector : moduleCollector.getLineCollectors()) {
-			lineReports.add(getLineReport(lineCollector));
-		}
-		return new ModuleReport(moduleCollector.getModule(), lineReports);
-	}
+    public Report getReport() {
+        Report report = new Report();
+        for (Map.Entry<ModuleUri, ModuleCollector> entry : modulesCollector.entrySet()) {
+            if (entry.getKey() != null) {
+                report.addModuleReport(getModuleReport(entry.getValue()));
+            }
+        }
+        return report;
+    }
 
-	private LineReport getLineReport(LineCollector lineCollector) {
-		List<InstructionReport> instructionReports = new ArrayList<InstructionReport>(lineCollector.getInstructionCollectors().size());
-		for (InstructionCollector instructionCollector : lineCollector.getInstructionCollectors()) {
-			instructionReports.add(new InstructionReport(instructionCollector.getInstruction(), instructionCollector.isInstructionInvoked()));
-		}
-		return new LineReport(lineCollector.getLineNumber(), instructionReports);
-	}
+    private ModuleReport getModuleReport(ModuleCollector moduleCollector) {
+        List<LineReport> lineReports = new ArrayList<>();
+        for (LineCollector lineCollector : moduleCollector.getLineCollectors()) {
+            lineReports.add(getLineReport(lineCollector));
+        }
+        return new ModuleReport(moduleCollector.getModuleUri(), lineReports);
+    }
+
+    private LineReport getLineReport(LineCollector lineCollector) {
+        List<InstructionReport> instructionReports = new ArrayList<InstructionReport>(lineCollector.getInstructionCollectors().size());
+        for (InstructionCollector instructionCollector : lineCollector.getInstructionCollectors()) {
+            instructionReports.add(new InstructionReport(instructionCollector.getInstruction(), instructionCollector.isInstructionInvoked()));
+        }
+        return new LineReport(lineCollector.getLineNumber(), instructionReports);
+    }
 }

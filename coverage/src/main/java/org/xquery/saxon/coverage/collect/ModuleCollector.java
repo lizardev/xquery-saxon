@@ -1,5 +1,6 @@
 package org.xquery.saxon.coverage.collect;
 
+import org.xquery.saxon.coverage.ModuleUri;
 import org.xquery.saxon.coverage.trace.CoverageInstruction;
 
 import java.util.Collection;
@@ -8,11 +9,11 @@ import java.util.Map;
 
 public class ModuleCollector {
 
-    private String module;
-    private Map<Integer, LineCollector> linesCollector = new HashMap<Integer, LineCollector>();
+    private ModuleUri moduleUri;
+    private Map<Integer, LineCollector> linesCollector = new HashMap<>();
 
-    public ModuleCollector(String module) {
-        this.module = module;
+    public ModuleCollector(ModuleUri moduleUri) {
+        this.moduleUri = moduleUri;
     }
 
     public InstructionCollector instructionCreated(CoverageInstruction instruction) {
@@ -32,7 +33,7 @@ public class ModuleCollector {
         return linesCollector.values();
     }
 
-    public String getModule() {
-        return module;
+    public ModuleUri getModuleUri() {
+        return moduleUri;
     }
 }

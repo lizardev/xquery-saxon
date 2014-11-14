@@ -1,6 +1,5 @@
 package org.xquery.saxon.coverage;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.xquery.saxon.adapter.trace.SpiTraceExtensionProvider;
 import org.xquery.saxon.adapter.trace.TraceExtension;
@@ -9,24 +8,15 @@ import org.xquery.saxon.coverage.util.XQueryExecutor;
 
 import static com.google.common.collect.Iterables.getFirst;
 import static org.apache.commons.lang3.reflect.FieldUtils.writeStaticField;
+import static org.xquery.saxon.coverage.TestConstants.*;
 import static org.xquery.saxon.coverage.assertj.ProjectAssertions.assertThat;
+import static org.xquery.saxon.coverage.util.XQueryExecutorBuilder.xQueryExecutor;
 
-public class CoverageTest {
-
-    private CoverageService coverageService;
-    private XQueryExecutor xQueryExecutor;
-
-    @Before
-    public void initializeExecutorWithCoverage() {
-        coverageService = new CoverageService();
-        xQueryExecutor = new XQueryExecutor(new CoverageTraceExtension(
-                coverageService.getCoverageInstructionInjector(),
-                coverageService.getCoverageInstructionListener()));
-    }
+public class BasicCoverageTest extends AbstractCoverageTest {
 
     @Test
-    public void testCoverageOfTourModule() {
-        xQueryExecutor.execute("/tour.xq");
+    public void shouldCollectCoverageOfTourModule() {
+        xqueryExecutor.execute(TOUR_MODULE);
 
         assertThat(coverageService.getReport().getModuleReports()).hasSize(1);
         ModuleReport moduleReport = getFirst(coverageService.getReport().getModuleReports(), null);
@@ -36,19 +26,8 @@ public class CoverageTest {
     }
 
     @Test
-    public void testCoverageOfTestModule() {
-        xQueryExecutor.execute("/test.xq");
-
-        assertThat(coverageService.getReport().getModuleReports()).hasSize(1);
-        ModuleReport moduleReport = getFirst(coverageService.getReport().getModuleReports(), null);
-        assertThat(moduleReport)
-                .hasCoverageCloseTo(0.80)
-                .hasNotFullyCoveredLines(6);
-    }
-
-    @Test
     public void functionsModuleShouldBeFullyCovered() {
-        xQueryExecutor.execute("/functions.xq");
+        xqueryExecutor.execute(FUNCTIONS_MODULE);
 
         assertThat(coverageService.getReport().getModuleReports()).hasSize(1);
         ModuleReport moduleReport = getFirst(coverageService.getReport().getModuleReports(), null);
@@ -59,13 +38,11 @@ public class CoverageTest {
     public void shouldCreateSpiCoverageTraceExtensionProvider() throws IllegalAccessException {
         writeStaticField(CoverageService.class, "instance", null, true);
         TraceExtension traceExtension = new SpiTraceExtensionProvider().getTraceExtension();
-        XQueryExecutor xQueryExecutor = new XQueryExecutor(traceExtension);
+        XQueryExecutor xqueryExecutor = xQueryExecutor().withTraceExtension(traceExtension).build();
 
-        xQueryExecutor.execute("/test.xq");
+        xqueryExecutor.execute(ONE_LINE_MODULE);
 
         ModuleReport moduleReport = getFirst(CoverageService.getInstance().getReport().getModuleReports(), null);
-        assertThat(moduleReport)
-                .hasCoverageCloseTo(0.80)
-                .hasNotFullyCoveredLines(6);
+        assertThat(moduleReport).isFullyCovered();
     }
 }

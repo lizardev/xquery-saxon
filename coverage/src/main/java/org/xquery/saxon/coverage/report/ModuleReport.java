@@ -1,22 +1,23 @@
 package org.xquery.saxon.coverage.report;
 
 import com.google.common.collect.ImmutableList;
+import org.xquery.saxon.coverage.ModuleUri;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleReport {
 
-    private final String module;
+    private final ModuleUri moduleUri;
     private final List<LineReport> lineReports;
 
-    public ModuleReport(String module, List<LineReport> lineReports) {
-        this.module = module;
+    public ModuleReport(ModuleUri moduleUri, List<LineReport> lineReports) {
+        this.moduleUri = moduleUri;
         this.lineReports = ImmutableList.copyOf(lineReports);
     }
 
-    public String getModule() {
-        return module;
+    public ModuleUri getModuleUri() {
+        return moduleUri;
     }
 
     public List<LineReport> getLineReports() {
