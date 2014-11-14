@@ -18,6 +18,7 @@ public class ReportAssert extends AbstractAssert<ReportAssert, Report> {
     }
 
     public ReportAssert hasModuleReports(ModuleUri... moduleUris) {
+        info.description("has module reports");
         iterables.assertHasSize(info, actual.getModuleReports(), moduleUris.length);
         Iterable<ModuleUri> actualModuleUris = transform(actual.getModuleReports(), new Function<ModuleReport, ModuleUri>() {
             @Override
@@ -30,11 +31,13 @@ public class ReportAssert extends AbstractAssert<ReportAssert, Report> {
     }
 
     public ReportAssert isEmpty() {
+        info.description("is empty");
         iterables.assertEmpty(info, actual.getModuleReports());
         return this;
     }
 
     public ReportAssert hasNumberOfModules(int number) {
+        info.description("has number of modules");
         iterables.assertHasSize(info, actual.getModuleReports(), number);
         return this;
     }

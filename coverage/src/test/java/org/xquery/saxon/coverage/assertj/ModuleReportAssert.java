@@ -1,7 +1,6 @@
 package org.xquery.saxon.coverage.assertj;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.Booleans;
@@ -13,6 +12,8 @@ import org.xquery.saxon.coverage.report.ModuleReport;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.collect.Lists.transform;
+
 public class ModuleReportAssert extends AbstractAssert<ModuleReportAssert, ModuleReport> {
 
     private static final Offset<Double> DEFAULT_COVERAGE_OFFSET = Offset.offset(0.01);
@@ -22,12 +23,14 @@ public class ModuleReportAssert extends AbstractAssert<ModuleReportAssert, Modul
     }
 
     public ModuleReportAssert hasCoverageCloseTo(double coverage) {
+        info.description("has coverage close to (default offset is %s)", DEFAULT_COVERAGE_OFFSET.value);
         Doubles.instance().assertIsCloseTo(info, actual.getLineCoverage(), coverage, DEFAULT_COVERAGE_OFFSET);
         return this;
     }
 
     public ModuleReportAssert hasNotFullyCoveredLines(int... lineNumbers) {
-        List<Integer> notFullyCoveredLineNumbers = Lists.transform(actual.getNotFullyCoveredLines(),
+        info.description("has not fully covered lines");
+        List<Integer> notFullyCoveredLineNumbers = transform(actual.getNotFullyCoveredLines(),
                 new Function<LineReport, Integer>() {
                     public Integer apply(LineReport input) {
                         return input.getLineNumber();
