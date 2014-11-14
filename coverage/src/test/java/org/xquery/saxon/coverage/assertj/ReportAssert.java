@@ -33,4 +33,9 @@ public class ReportAssert extends AbstractAssert<ReportAssert, Report> {
         iterables.assertEmpty(info, actual.getModuleReports());
         return this;
     }
+
+    public ReportAssert hasNumberOfModules(int number) {
+        iterables.assertHasSize(info, actual.getModuleReports(), number);
+        return this;
+    }
 }

@@ -15,7 +15,7 @@ public class ModuleImportTest extends AbstractCoverageTest {
 
         assertThat(result).isTrue();
         Report report = coverageService.getReport();
-        assertThat(report).hasModuleReports(IMPORT_MAIN_MODULE, IMPORT_LIBRARY_MODULE);
+        assertThat(report).hasNumberOfModules(2);
         assertThat(report.getModuleReport(IMPORT_LIBRARY_MODULE)).isFullyCovered();
         assertThat(report.getModuleReport(IMPORT_MAIN_MODULE)).isFullyCovered();
     }
