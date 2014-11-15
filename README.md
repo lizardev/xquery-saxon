@@ -3,4 +3,4 @@ xquery-saxon
 
 XQuery Coverage for Saxon implementation. 
 
-[![Build Status](https://buildhive.cloudbees.com/job/alaczynski/job/xquery-saxon/badge/icon)](https://buildhive.cloudbees.com/job/alaczynski/job/xquery-saxon/)
+[![Build Status](https://travis-ci.org/alaczynski/xquery-saxon.svg?branch=master)](https://travis-ci.org/alaczynski/xquery-saxon)
