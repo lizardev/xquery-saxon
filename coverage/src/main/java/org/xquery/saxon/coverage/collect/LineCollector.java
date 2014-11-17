@@ -10,7 +10,7 @@ import java.util.Map;
 public class LineCollector {
 
     private final int lineNumber;
-    private Map<Identifier, InstructionCollector> instructionCollectors = new HashMap<Identifier, InstructionCollector>();
+    private Map<Identifier, InstructionCollector> instructionCollectors = new HashMap<>();
 
     public LineCollector(int lineNumber) {
         this.lineNumber = lineNumber;

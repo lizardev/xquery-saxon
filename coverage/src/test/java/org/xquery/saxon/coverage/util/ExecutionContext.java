@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ExecutionContext {
 
-    private List<ExternalVariable> externalVariables = new ArrayList<ExternalVariable>();
+    private List<ExternalVariable> externalVariables = new ArrayList<>();
 
     public List<ExternalVariable> getExternalVariables() {
         return ImmutableList.copyOf(externalVariables);

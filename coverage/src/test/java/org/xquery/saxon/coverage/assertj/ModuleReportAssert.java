@@ -36,7 +36,7 @@ public class ModuleReportAssert extends AbstractAssert<ModuleReportAssert, Modul
                         return input.getLineNumber();
                     }
                 });
-        List<Integer> lineNumbersAsList = new ArrayList<Integer>();
+        List<Integer> lineNumbersAsList = new ArrayList<>();
         for (int lineNumber : lineNumbers) {
             lineNumbersAsList.add(lineNumber);
         }

@@ -67,7 +67,7 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
     }
 
     private LineReport getLineReport(LineCollector lineCollector) {
-        List<InstructionReport> instructionReports = new ArrayList<InstructionReport>(lineCollector.getInstructionCollectors().size());
+        List<InstructionReport> instructionReports = new ArrayList<>(lineCollector.getInstructionCollectors().size());
         for (InstructionCollector instructionCollector : lineCollector.getInstructionCollectors()) {
             instructionReports.add(new InstructionReport(instructionCollector.getInstruction(), instructionCollector.isInstructionInvoked()));
         }

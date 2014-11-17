@@ -12,7 +12,7 @@ public class SpiTraceExtensionProvider implements TraceExtensionProvider {
     @Override
     public TraceExtension getTraceExtension() {
         ServiceLoader<TraceExtensionProvider> traceExtensionProviders = ServiceLoader.load(TraceExtensionProvider.class);
-        List<TraceExtension> traceExtensions = new ArrayList<TraceExtension>();
+        List<TraceExtension> traceExtensions = new ArrayList<>();
         for (TraceExtensionProvider traceExtensionProvider : traceExtensionProviders) {
             traceExtensions.add(traceExtensionProvider.getTraceExtension());
         }

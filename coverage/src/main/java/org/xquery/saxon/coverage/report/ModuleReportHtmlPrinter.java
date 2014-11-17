@@ -17,7 +17,7 @@ public class ModuleReportHtmlPrinter {
 
     public String print(ModuleReport moduleReport) {
         List<String> lines = readLines(moduleReport);
-        List<LineReport> lineReports = new ArrayList<LineReport>();
+        List<LineReport> lineReports = new ArrayList<>();
 
         for (int i = 1; i <= lines.size(); i++) {
             LineReport lineReport = moduleReport.getLineReport(i);

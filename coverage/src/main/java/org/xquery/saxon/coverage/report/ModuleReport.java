@@ -25,7 +25,7 @@ public class ModuleReport {
     }
 
     public List<LineReport> getNotFullyCoveredLines() {
-        ArrayList<LineReport> lines = new ArrayList<LineReport>(lineReports.size());
+        ArrayList<LineReport> lines = new ArrayList<>(lineReports.size());
         for (LineReport lineReport : lineReports) {
             if (!lineReport.isFullyCovered()) {
                 lines.add(lineReport);
