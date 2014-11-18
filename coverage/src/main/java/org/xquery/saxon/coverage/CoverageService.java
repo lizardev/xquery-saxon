@@ -2,6 +2,7 @@ package org.xquery.saxon.coverage;
 
 import org.xquery.saxon.coverage.collect.DefaultCoverageInstructionEventHandler;
 import org.xquery.saxon.coverage.report.Report;
+import org.xquery.saxon.coverage.report.TextReportPrinter;
 import org.xquery.saxon.coverage.trace.CoverageInstructionInjector;
 import org.xquery.saxon.coverage.trace.CoverageInstructionListener;
 
@@ -16,6 +17,12 @@ public class CoverageService {
         defaultCoverageInstructionEventHandler = new DefaultCoverageInstructionEventHandler();
         coverageInstructionInjector = new CoverageInstructionInjector(defaultCoverageInstructionEventHandler);
         coverageInstructionListener = new CoverageInstructionListener(defaultCoverageInstructionEventHandler);
+        // todo: temporary feature
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                new TextReportPrinter().print(defaultCoverageInstructionEventHandler.getReport(), System.out);
+            }
+        });
     }
 
     public Report getReport() {

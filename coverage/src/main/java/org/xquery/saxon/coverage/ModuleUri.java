@@ -40,4 +40,9 @@ public class ModuleUri {
         final ModuleUri other = (ModuleUri) obj;
         return Objects.equals(this.uri, other.uri);
     }
+
+    @Override
+    public String toString() {
+        return uri.toString();
+    }
 }

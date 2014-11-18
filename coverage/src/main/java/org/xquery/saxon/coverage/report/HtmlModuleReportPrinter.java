@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.xquery.saxon.coverage.report.Freemarker.renderTemplate;
 
-public class ModuleReportHtmlPrinter {
+public class HtmlModuleReportPrinter {
 
     public String print(ModuleReport moduleReport) {
         List<String> lines = readLines(moduleReport);
