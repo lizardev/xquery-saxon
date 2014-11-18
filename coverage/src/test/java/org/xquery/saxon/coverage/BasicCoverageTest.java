@@ -7,7 +7,9 @@ import org.xquery.saxon.coverage.report.Report;
 import org.xquery.saxon.coverage.util.XQueryExecutor;
 
 import static org.apache.commons.lang3.reflect.FieldUtils.writeStaticField;
-import static org.xquery.saxon.coverage.TestConstants.*;
+import static org.xquery.saxon.coverage.TestConstants.FUNCTIONS_MODULE;
+import static org.xquery.saxon.coverage.TestConstants.ONE_LINE_MODULE;
+import static org.xquery.saxon.coverage.TestConstants.TOUR_MODULE;
 import static org.xquery.saxon.coverage.assertj.ProjectAssertions.assertThat;
 import static org.xquery.saxon.coverage.util.XQueryExecutorBuilder.xQueryExecutor;
 

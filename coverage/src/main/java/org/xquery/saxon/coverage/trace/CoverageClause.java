@@ -8,7 +8,6 @@ import net.sf.saxon.expr.flwor.TuplePull;
 import net.sf.saxon.expr.flwor.TuplePush;
 import net.sf.saxon.om.NamespaceResolver;
 import net.sf.saxon.trace.ExpressionPresenter;
-import net.sf.saxon.trans.XPathException;
 
 import static org.xquery.saxon.coverage.trace.InstructionId.uniqueInstructionId;
 
@@ -54,7 +53,7 @@ class CoverageClause extends Clause implements CoverageInstruction {
     }
 
     @Override
-    public void processSubExpressions(ExpressionProcessor processor) throws XPathException {
+    public void processSubExpressions(ExpressionProcessor processor) {
     }
 
     @Override

@@ -4,13 +4,13 @@ import org.xquery.saxon.coverage.ModuleUri;
 import org.xquery.saxon.coverage.trace.CoverageInstruction;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ModuleCollector {
 
     private ModuleUri moduleUri;
-    private Map<Integer, LineCollector> linesCollector = new HashMap<>();
+    private Map<Integer, LineCollector> linesCollector = new LinkedHashMap<>();
 
     public ModuleCollector(ModuleUri moduleUri) {
         this.moduleUri = moduleUri;

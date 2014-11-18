@@ -2,6 +2,7 @@ package org.xquery.saxon.coverage.report;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class InstructionReport {
@@ -18,12 +19,13 @@ public class InstructionReport {
         return covered;
     }
 
-    public String getInstruction() {
-        return instruction;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this, SHORT_PREFIX_STYLE).append("instruction", instruction).append("covered", covered).build();
+    }
+
+    public InstructionReport merge(InstructionReport instructionReport) {
+        checkArgument(instruction.equals(instructionReport.instruction), "instructions must be the same");
+        return new InstructionReport(instruction, covered || instructionReport.covered);
     }
 }

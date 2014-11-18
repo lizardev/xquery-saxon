@@ -2,7 +2,7 @@ package org.xquery.saxon.adapter.common;
 
 import java.util.Comparator;
 
-public class OrderableComparator implements Comparator<Orderable> {
+public final class OrderableComparator implements Comparator<Orderable> {
 
     public static final OrderableComparator ORDERABLE_COMPARATOR = new OrderableComparator();
 

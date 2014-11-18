@@ -3,7 +3,6 @@ package org.xquery.saxon.coverage.trace;
 import net.sf.saxon.expr.Expression;
 import net.sf.saxon.expr.instruct.TraceExpression;
 import net.sf.saxon.expr.parser.ExpressionVisitor;
-import net.sf.saxon.trans.XPathException;
 import org.xquery.saxon.coverage.Construct;
 
 import static org.xquery.saxon.coverage.trace.InstructionId.uniqueInstructionId;
@@ -22,7 +21,7 @@ public class CoverageExpression extends TraceExpression implements CoverageInstr
     }
 
     @Override
-    public Expression simplify(ExpressionVisitor visitor) throws XPathException {
+    public Expression simplify(ExpressionVisitor visitor) {
         return this;
     }
 

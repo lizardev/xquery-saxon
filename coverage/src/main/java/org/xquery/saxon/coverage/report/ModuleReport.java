@@ -6,6 +6,8 @@ import org.xquery.saxon.coverage.ModuleUri;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class ModuleReport {
 
     private final ModuleUri moduleUri;
@@ -60,5 +62,15 @@ public class ModuleReport {
             }
         }
         return true;
+    }
+
+    public ModuleReport merge(ModuleReport moduleReport) {
+        checkArgument(moduleUri.equals(moduleReport.moduleUri), "module uris must be the same");
+        checkArgument(lineReports.size() == moduleReport.lineReports.size(), "numbers of lines must be the same");
+        List<LineReport> mergedLineReports = new ArrayList<>();
+        for (int i = 0; i < lineReports.size(); i++) {
+            mergedLineReports.add(lineReports.get(i).merge(moduleReport.lineReports.get(i)));
+        }
+        return new ModuleReport(moduleUri, mergedLineReports);
     }
 }

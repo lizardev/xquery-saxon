@@ -10,8 +10,15 @@ public class Report {
 
     private Map<ModuleUri, ModuleReport> moduleReports = new HashMap<>();
 
-    public void addModuleReport(ModuleReport moduleReport) {
-        moduleReports.put(moduleReport.getModuleUri(), moduleReport);
+    public void addOrMergeModuleReport(ModuleReport moduleReport) {
+        ModuleUri moduleUri = moduleReport.getModuleUri();
+        ModuleReport actualModuleReport = moduleReports.get(moduleUri);
+        if (actualModuleReport == null) {
+            actualModuleReport = moduleReport;
+        } else {
+            actualModuleReport = actualModuleReport.merge(moduleReport);
+        }
+        moduleReports.put(moduleUri, actualModuleReport);
     }
 
     public ModuleReport getModuleReport(ModuleUri moduleUri) {

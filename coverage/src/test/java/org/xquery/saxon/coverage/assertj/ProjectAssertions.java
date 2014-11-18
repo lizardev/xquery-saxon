@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.xquery.saxon.coverage.report.ModuleReport;
 import org.xquery.saxon.coverage.report.Report;
 
-public class ProjectAssertions extends Assertions {
+public final class ProjectAssertions extends Assertions {
 
     private ProjectAssertions() {
     }

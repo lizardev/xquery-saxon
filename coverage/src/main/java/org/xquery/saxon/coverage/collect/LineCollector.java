@@ -4,13 +4,13 @@ import org.xquery.saxon.coverage.trace.CoverageInstruction;
 import org.xquery.saxon.coverage.trace.InstructionId;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LineCollector {
 
     private final int lineNumber;
-    private Map<InstructionId, InstructionCollector> instructionCollectors = new HashMap<>();
+    private Map<InstructionId, InstructionCollector> instructionCollectors = new LinkedHashMap<>();
 
     public LineCollector(int lineNumber) {
         this.lineNumber = lineNumber;

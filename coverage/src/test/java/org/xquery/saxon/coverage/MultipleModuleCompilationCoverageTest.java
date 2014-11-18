@@ -1,7 +1,7 @@
 package org.xquery.saxon.coverage;
 
-import org.junit.Ignore;
 import org.junit.Test;
+import org.xquery.saxon.coverage.report.Report;
 
 import static org.xquery.saxon.coverage.TestConstants.TWO_BRANCHES_MODULE;
 import static org.xquery.saxon.coverage.assertj.ProjectAssertions.assertThat;
@@ -9,7 +9,6 @@ import static org.xquery.saxon.coverage.util.ExecutionContext.executionContext;
 
 public class MultipleModuleCompilationCoverageTest extends AbstractCoverageTest {
 
-    @Ignore("feature not implemented yet")
     @Test
     public void shouldMergeCoverageOfModuleCompiledTwice() {
         boolean result = xqueryExecutor.execute(TWO_BRANCHES_MODULE, executionContext().withExternalVariable("switch", true).build());
@@ -17,6 +16,8 @@ public class MultipleModuleCompilationCoverageTest extends AbstractCoverageTest 
         result = xqueryExecutor.execute(TWO_BRANCHES_MODULE, executionContext().withExternalVariable("switch", false).build());
         assertThat(result).isFalse();
 
-        assertThat(coverageService.getReport().getModuleReport(TWO_BRANCHES_MODULE)).isFullyCovered();
+        Report report = coverageService.getReport();
+        assertThat(report).hasNumberOfModules(1);
+        assertThat(report.getModuleReport(TWO_BRANCHES_MODULE)).isFullyCovered();
     }
 }

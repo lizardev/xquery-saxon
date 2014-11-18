@@ -2,7 +2,7 @@ package org.xquery.saxon.coverage.util;
 
 import org.xquery.saxon.adapter.trace.TraceExtension;
 
-public class XQueryExecutorBuilder {
+public final class XQueryExecutorBuilder {
 
     private TraceExtension traceExtension;
 

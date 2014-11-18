@@ -1,11 +1,8 @@
 package org.xquery.saxon.coverage.trace;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import java.util.UUID;
 
-public class InstructionId {
+public final class InstructionId {
     private final Object id;
 
     private InstructionId(Object id) {
@@ -30,11 +27,12 @@ public class InstructionId {
             return false;
         }
 
-        return new EqualsBuilder().append(id, ((InstructionId) o).id).build();
+        InstructionId that = (InstructionId) o;
+        return id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).build();
+        return id.hashCode();
     }
 }

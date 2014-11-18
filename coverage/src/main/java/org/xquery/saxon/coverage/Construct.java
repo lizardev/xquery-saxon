@@ -4,7 +4,10 @@ import net.sf.saxon.expr.flwor.Clause;
 import net.sf.saxon.om.StandardNames;
 import net.sf.saxon.trace.Location;
 
-public class Construct {
+public final class Construct {
+
+    private Construct() {
+    }
 
     public static String constructToString(int construct) {
         switch (construct) {

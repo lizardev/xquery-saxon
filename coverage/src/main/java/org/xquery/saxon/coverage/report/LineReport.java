@@ -3,8 +3,10 @@ package org.xquery.saxon.coverage.report;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class LineReport {
@@ -36,5 +38,15 @@ public class LineReport {
                 .append("lineNumber", lineNumber)
                 .append("instructionCoverageReports" + instructionReports)
                 .build();
+    }
+
+    public LineReport merge(LineReport lineReport) {
+        checkArgument(lineNumber == lineReport.lineNumber, "line numbers must be the same");
+        checkArgument(instructionReports.size() == lineReport.instructionReports.size(), "numbers of instructions must be the same");
+        List<InstructionReport> mergedInstructionReports = new ArrayList<>();
+        for (int i = 0; i < instructionReports.size(); i++) {
+            mergedInstructionReports.add(instructionReports.get(i).merge(lineReport.instructionReports.get(i)));
+        }
+        return new LineReport(lineNumber, mergedInstructionReports);
     }
 }
