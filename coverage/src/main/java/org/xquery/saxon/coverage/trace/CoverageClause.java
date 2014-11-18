@@ -10,7 +10,10 @@ import net.sf.saxon.om.NamespaceResolver;
 import net.sf.saxon.trace.ExpressionPresenter;
 import net.sf.saxon.trans.XPathException;
 
+import static org.xquery.saxon.coverage.trace.InstructionId.uniqueInstructionId;
+
 class CoverageClause extends Clause implements CoverageInstruction {
+    private final InstructionId instructionId = uniqueInstructionId();
     private final Clause target;
     private final NamespaceResolver namespaceResolver;
     private final Container container;
@@ -26,8 +29,8 @@ class CoverageClause extends Clause implements CoverageInstruction {
     }
 
     @Override
-    public Identifier getIdentifier() {
-        return new Identifier(this);
+    public InstructionId getInstructionId() {
+        return instructionId;
     }
 
     @Override

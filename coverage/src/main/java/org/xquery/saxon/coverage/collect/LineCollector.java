@@ -1,7 +1,7 @@
 package org.xquery.saxon.coverage.collect;
 
 import org.xquery.saxon.coverage.trace.CoverageInstruction;
-import org.xquery.saxon.coverage.trace.Identifier;
+import org.xquery.saxon.coverage.trace.InstructionId;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Map;
 public class LineCollector {
 
     private final int lineNumber;
-    private Map<Identifier, InstructionCollector> instructionCollectors = new HashMap<>();
+    private Map<InstructionId, InstructionCollector> instructionCollectors = new HashMap<>();
 
     public LineCollector(int lineNumber) {
         this.lineNumber = lineNumber;
@@ -21,10 +21,10 @@ public class LineCollector {
     }
 
     private InstructionCollector getInstructionCollector(CoverageInstruction instruction) {
-        InstructionCollector instructionCollector = instructionCollectors.get(instruction.getIdentifier());
+        InstructionCollector instructionCollector = instructionCollectors.get(instruction.getInstructionId());
         if (instructionCollector == null) {
             instructionCollector = new InstructionCollector(instruction);
-			instructionCollectors.put(instruction.getIdentifier(), instructionCollector);
+            instructionCollectors.put(instruction.getInstructionId(), instructionCollector);
         }
         return instructionCollector;
     }

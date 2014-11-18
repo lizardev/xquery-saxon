@@ -9,7 +9,7 @@ import org.xquery.saxon.coverage.report.Report;
 import org.xquery.saxon.coverage.trace.CoverageInstructionCreatedEvent;
 import org.xquery.saxon.coverage.trace.CoverageInstructionEventHandler;
 import org.xquery.saxon.coverage.trace.CoverageInstructionInvokedEvent;
-import org.xquery.saxon.coverage.trace.Identifier;
+import org.xquery.saxon.coverage.trace.InstructionId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,12 +19,12 @@ import java.util.Map;
 public class DefaultCoverageInstructionEventHandler implements CoverageInstructionEventHandler {
 
     private Map<ModuleUri, ModuleCollector> modulesCollector = new HashMap<>();
-    private Map<Identifier, InstructionCollector> instructionCollectors = new HashMap<>();
+    private Map<InstructionId, InstructionCollector> instructionCollectors = new HashMap<>();
 
     public void handle(CoverageInstructionCreatedEvent event) {
         InstructionCollector instructionCollector = getModuleCollector(getModuleUri(event.getQueryModule()))
                 .instructionCreated(event.getInstruction());
-        instructionCollectors.put(event.getInstruction().getIdentifier(), instructionCollector);
+        instructionCollectors.put(event.getInstruction().getInstructionId(), instructionCollector);
     }
 
     private ModuleUri getModuleUri(QueryModule queryModule) {
@@ -36,7 +36,7 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
     }
 
     public void handle(CoverageInstructionInvokedEvent event) {
-        instructionCollectors.get(event.getIdentifier()).instructionInvoked();
+        instructionCollectors.get(event.getInstructionId()).instructionInvoked();
     }
 
     private ModuleCollector getModuleCollector(ModuleUri module) {
