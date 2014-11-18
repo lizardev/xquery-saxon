@@ -29,7 +29,7 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
     private Map<InstructionId, InstructionCollector> instructionCollectors = new HashMap<>();
     private Set<InstructionId> instractionsOfModuleWithoutUri = new HashSet<>();
 
-    public void handle(CoverageInstructionCreatedEvent event) {
+    public synchronized void handle(CoverageInstructionCreatedEvent event) {
         ModuleUri moduleUri = getModuleUri(event.getQueryModule());
         if (moduleUri == null) {
             instractionsOfModuleWithoutUri.add(event.getInstruction().getInstructionId());
@@ -40,10 +40,18 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
         }
     }
 
-    public void handle(CoverageInstructionInvokedEvent event) {
+    public synchronized void handle(CoverageInstructionInvokedEvent event) {
         if (!instractionsOfModuleWithoutUri.contains(event.getInstructionId())) {
             instructionCollectors.get(event.getInstructionId()).instructionInvoked();
         }
+    }
+
+    public synchronized Report getReport() {
+        Report report = new Report();
+        for (ModuleCollector moduleCollector : modulesCollector.values()) {
+            report.addOrMergeModuleReport(getModuleReport(moduleCollector));
+        }
+        return report;
     }
 
     private ModuleUri getModuleUri(QueryModule queryModule) {
@@ -66,14 +74,6 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
 
     private ModuleId getModuleId(QueryModule queryModule) {
         return putIfAbsent(moduleIds, queryModule, uniqueModuleId());
-    }
-
-    public Report getReport() {
-        Report report = new Report();
-        for (ModuleCollector moduleCollector : modulesCollector.values()) {
-            report.addOrMergeModuleReport(getModuleReport(moduleCollector));
-        }
-        return report;
     }
 
     private ModuleReport getModuleReport(ModuleCollector moduleCollector) {
