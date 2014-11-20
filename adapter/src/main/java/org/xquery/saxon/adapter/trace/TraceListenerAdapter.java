@@ -1,4 +1,4 @@
-package org.xquery.saxon.coverage.trace;
+package org.xquery.saxon.adapter.trace;
 
 import net.sf.saxon.Controller;
 import net.sf.saxon.expr.XPathContext;

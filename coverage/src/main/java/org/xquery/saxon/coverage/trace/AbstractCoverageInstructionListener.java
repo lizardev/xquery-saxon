@@ -4,6 +4,7 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.expr.flwor.Clause;
 import net.sf.saxon.expr.flwor.ClauseInfo;
 import net.sf.saxon.trace.InstructionInfo;
+import org.xquery.saxon.adapter.trace.TraceListenerAdapter;
 
 public abstract class AbstractCoverageInstructionListener extends TraceListenerAdapter {
 
