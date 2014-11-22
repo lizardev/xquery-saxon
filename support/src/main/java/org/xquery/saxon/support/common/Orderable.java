@@ -1,4 +1,4 @@
-package org.xquery.saxon.adapter.common;
+package org.xquery.saxon.support.common;
 
 public interface Orderable {
 

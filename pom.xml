@@ -14,8 +14,8 @@
     </properties>
 
     <modules>
-        <module>adapter</module>
         <module>coverage</module>
+        <module>support</module>
     </modules>
 
     <dependencyManagement>

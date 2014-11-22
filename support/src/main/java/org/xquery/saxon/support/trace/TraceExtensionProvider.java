@@ -1,4 +1,4 @@
-package org.xquery.saxon.adapter.trace;
+package org.xquery.saxon.support.trace;
 
 import javax.annotation.Nullable;
 

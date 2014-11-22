@@ -1,8 +1,8 @@
-package org.xquery.saxon.adapter.trace;
+package org.xquery.saxon.support.trace;
 
 import net.sf.saxon.lib.TraceListener;
 import net.sf.saxon.trace.TraceCodeInjector;
-import org.xquery.saxon.adapter.common.Orderable;
+import org.xquery.saxon.support.common.Orderable;
 
 import javax.annotation.Nullable;
 

@@ -2,7 +2,7 @@ package org.xquery.saxon.coverage;
 
 import net.sf.saxon.lib.TraceListener;
 import net.sf.saxon.trace.TraceCodeInjector;
-import org.xquery.saxon.adapter.trace.TraceExtension;
+import org.xquery.saxon.support.trace.TraceExtension;
 import org.xquery.saxon.coverage.trace.CoverageInstructionInjector;
 import org.xquery.saxon.coverage.trace.CoverageInstructionListener;
 

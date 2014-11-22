@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.RestoreSystemProperties;
-import org.xquery.saxon.adapter.trace.SpiTraceExtensionProvider;
-import org.xquery.saxon.adapter.trace.TraceExtension;
+import org.xquery.saxon.support.trace.SpiTraceExtensionProvider;
+import org.xquery.saxon.support.trace.TraceExtension;
 import org.xquery.saxon.coverage.util.XQueryExecutor;
 
 import static org.apache.commons.lang3.reflect.FieldUtils.writeStaticField;

@@ -1,6 +1,6 @@
 package org.xquery.saxon.coverage.util;
 
-import org.xquery.saxon.adapter.trace.TraceExtension;
+import org.xquery.saxon.support.trace.TraceExtension;
 
 public final class XQueryExecutorBuilder {
 

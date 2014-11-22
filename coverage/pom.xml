@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>org.xquery.saxon</groupId>
-            <artifactId>xquery-saxon-adapter</artifactId>
+            <artifactId>xquery-saxon-support</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

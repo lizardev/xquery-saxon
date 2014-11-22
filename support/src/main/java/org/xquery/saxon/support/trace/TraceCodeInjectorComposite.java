@@ -1,4 +1,4 @@
-package org.xquery.saxon.adapter.trace;
+package org.xquery.saxon.support.trace;
 
 import com.google.common.collect.ImmutableList;
 import net.sf.saxon.expr.Container;

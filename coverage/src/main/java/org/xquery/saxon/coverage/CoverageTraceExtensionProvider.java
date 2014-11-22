@@ -1,7 +1,7 @@
 package org.xquery.saxon.coverage;
 
-import org.xquery.saxon.adapter.trace.TraceExtension;
-import org.xquery.saxon.adapter.trace.TraceExtensionProvider;
+import org.xquery.saxon.support.trace.TraceExtension;
+import org.xquery.saxon.support.trace.TraceExtensionProvider;
 
 import javax.annotation.Nullable;
 

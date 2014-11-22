@@ -1,4 +1,4 @@
-package org.xquery.saxon.adapter.trace;
+package org.xquery.saxon.support.trace;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 
 import static com.google.common.base.Predicates.notNull;
-import static org.xquery.saxon.adapter.common.OrderableComparator.ORDERABLE_COMPARATOR;
+import static org.xquery.saxon.support.common.OrderableComparator.ORDERABLE_COMPARATOR;
 
 public class SpiTraceExtensionProvider implements TraceExtensionProvider {
 

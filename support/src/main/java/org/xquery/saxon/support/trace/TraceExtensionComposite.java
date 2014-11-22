@@ -1,4 +1,4 @@
-package org.xquery.saxon.adapter.trace;
+package org.xquery.saxon.support.trace;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;

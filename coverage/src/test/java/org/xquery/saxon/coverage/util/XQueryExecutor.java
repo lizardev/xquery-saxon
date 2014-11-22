@@ -9,7 +9,7 @@ import net.sf.saxon.s9api.XQueryEvaluator;
 import net.sf.saxon.s9api.XQueryExecutable;
 import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmValue;
-import org.xquery.saxon.adapter.trace.TraceExtension;
+import org.xquery.saxon.support.trace.TraceExtension;
 import org.xquery.saxon.coverage.ModuleUri;
 
 import java.io.File;
