@@ -1,22 +1,26 @@
 package org.xquery.saxon.adapter.trace;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
+
+import javax.annotation.Nullable;
 import java.util.ServiceLoader;
 
+import static com.google.common.base.Predicates.notNull;
 import static org.xquery.saxon.adapter.common.OrderableComparator.ORDERABLE_COMPARATOR;
 
 public class SpiTraceExtensionProvider implements TraceExtensionProvider {
 
     @Override
     public TraceExtension getTraceExtension() {
-        ServiceLoader<TraceExtensionProvider> traceExtensionProviders = ServiceLoader.load(TraceExtensionProvider.class);
-        List<TraceExtension> traceExtensions = new ArrayList<>();
-        for (TraceExtensionProvider traceExtensionProvider : traceExtensionProviders) {
-            traceExtensions.add(traceExtensionProvider.getTraceExtension());
-        }
-        Collections.sort(traceExtensions, ORDERABLE_COMPARATOR);
-        return new TraceExtensionComposite(traceExtensions);
+        Function<TraceExtensionProvider, TraceExtension> getTraceException = new Function<TraceExtensionProvider, TraceExtension>() {
+            @Nullable @Override public TraceExtension apply(TraceExtensionProvider input) {
+                return input.getTraceExtension();
+            }
+        };
+        return new TraceExtensionComposite(FluentIterable.from(ServiceLoader.load(TraceExtensionProvider.class))
+                .transform(getTraceException)
+                .filter(notNull())
+                .toSortedList(ORDERABLE_COMPARATOR));
     }
 }
