@@ -1,9 +1,11 @@
 package org.xquery.saxon.coverage.report;
 
+import com.google.common.collect.FluentIterable;
 import org.xquery.saxon.coverage.ModuleUri;
 
-import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Report {
@@ -25,7 +27,12 @@ public class Report {
         return moduleReports.get(moduleUri);
     }
 
-    public Collection<ModuleReport> getModuleReports() {
-        return moduleReports.values();
+    public List<ModuleReport> getModuleReports() {
+        return FluentIterable.from(moduleReports.values())
+                .toSortedList(new Comparator<ModuleReport>() {
+                    @Override public int compare(ModuleReport o1, ModuleReport o2) {
+                        return o1.getModuleUri().toString().compareTo(o2.getModuleUri().toString());
+                    }
+                });
     }
 }
