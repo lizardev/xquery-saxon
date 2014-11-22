@@ -12,16 +12,16 @@ import java.util.List;
 
 public class TraceCodeInjectorComposite extends TraceCodeInjector {
 
-    private final List<TraceCodeInjector> traceCodeInjectors;
+    private final List<TraceCodeInjector> reversedTraceCodeInjectors;
 
     public TraceCodeInjectorComposite(List<TraceCodeInjector> traceCodeInjectors) {
-        this.traceCodeInjectors = ImmutableList.copyOf(traceCodeInjectors);
+        this.reversedTraceCodeInjectors = ImmutableList.copyOf(traceCodeInjectors).reverse();
     }
 
     @Override
     public Expression inject(Expression expression, StaticContext env, int construct, StructuredQName qName) {
         Expression wrappedExpression = expression;
-        for (TraceCodeInjector traceCodeInjector : traceCodeInjectors) {
+        for (TraceCodeInjector traceCodeInjector : reversedTraceCodeInjectors) {
             wrappedExpression = traceCodeInjector.inject(wrappedExpression, env, construct, qName);
         }
         return wrappedExpression;
@@ -30,7 +30,7 @@ public class TraceCodeInjectorComposite extends TraceCodeInjector {
     @Override
     public Clause injectClause(Clause clause, StaticContext env, Container container) {
         Clause wrappedClause = clause;
-        for (TraceCodeInjector traceCodeInjector : traceCodeInjectors) {
+        for (TraceCodeInjector traceCodeInjector : reversedTraceCodeInjectors) {
             wrappedClause = traceCodeInjector.injectClause(wrappedClause, env, container);
         }
         return wrappedClause;

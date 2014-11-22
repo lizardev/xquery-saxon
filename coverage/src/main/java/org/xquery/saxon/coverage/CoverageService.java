@@ -17,12 +17,13 @@ public class CoverageService {
         defaultCoverageInstructionEventHandler = new DefaultCoverageInstructionEventHandler();
         coverageInstructionInjector = new CoverageInstructionInjector(defaultCoverageInstructionEventHandler);
         coverageInstructionListener = new CoverageInstructionListener(defaultCoverageInstructionEventHandler);
-        // todo: temporary feature
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                new TextReportPrinter().print(defaultCoverageInstructionEventHandler.getReport(), System.out);
-            }
-        });
+        if (new SystemProperties().isCoverageReportPrintingOnShutdownEnabled()) {
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                public void run() {
+                    new TextReportPrinter().print(defaultCoverageInstructionEventHandler.getReport(), System.out);
+                }
+            });
+        }
     }
 
     public Report getReport() {

@@ -11,7 +11,7 @@ public class CoverageTraceExtensionProvider implements TraceExtensionProvider {
 
     @Override @Nullable
     public TraceExtension getTraceExtension() {
-        if (systemProperties.isCoverageTraceExtensionEnabled()) {
+        if (systemProperties.isCoverageEnabled()) {
             CoverageService coverageService = CoverageService.getInstance();
             return new CoverageTraceExtension(coverageService.getCoverageInstructionInjector(), coverageService.getCoverageInstructionListener());
         } else {

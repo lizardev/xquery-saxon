@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.ServiceLoader;
 
 import static com.google.common.base.Predicates.notNull;
@@ -18,9 +19,14 @@ public class SpiTraceExtensionProvider implements TraceExtensionProvider {
                 return input.getTraceExtension();
             }
         };
-        return new TraceExtensionComposite(FluentIterable.from(ServiceLoader.load(TraceExtensionProvider.class))
+        List<TraceExtension> traceExtensions = FluentIterable.from(ServiceLoader.load(TraceExtensionProvider.class))
                 .transform(getTraceException)
                 .filter(notNull())
-                .toSortedList(ORDERABLE_COMPARATOR));
+                .toSortedList(ORDERABLE_COMPARATOR);
+        if (traceExtensions.isEmpty()) {
+            return null;
+        } else {
+            return new TraceExtensionComposite(traceExtensions);
+        }
     }
 }

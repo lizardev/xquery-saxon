@@ -16,15 +16,15 @@ public class CoverageTraceExtensionProviderTest {
     @InjectMocks private CoverageTraceExtensionProvider provider;
 
     @Test
-    public void shouldProvideExtensionWhenEnabled() {
-        given(systemProperties.isCoverageTraceExtensionEnabled()).willReturn(true);
+    public void shouldProvideExtensionWhenCoverageIsEnabled() {
+        given(systemProperties.isCoverageEnabled()).willReturn(true);
 
         assertThat(provider.getTraceExtension()).isNotNull();
     }
 
     @Test
-    public void shouldNotProvideExtensionWhenDisabled() {
-        given(systemProperties.isCoverageTraceExtensionEnabled()).willReturn(false);
+    public void shouldNotProvideExtensionWhenCoverageIsDisabled() {
+        given(systemProperties.isCoverageEnabled()).willReturn(false);
 
         assertThat(provider.getTraceExtension()).isNull();
     }

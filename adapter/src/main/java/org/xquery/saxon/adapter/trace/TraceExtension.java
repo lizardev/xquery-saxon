@@ -4,11 +4,13 @@ import net.sf.saxon.lib.TraceListener;
 import net.sf.saxon.trace.TraceCodeInjector;
 import org.xquery.saxon.adapter.common.Orderable;
 
+import javax.annotation.Nullable;
+
 public interface TraceExtension extends Orderable {
 
-    TraceCodeInjector getTraceCodeInjector();
+    @Nullable TraceCodeInjector getTraceCodeInjector();
 
-    TraceListener getTraceListener();
+    @Nullable TraceListener getTraceListener();
 
     boolean allowsOptimization();
 }

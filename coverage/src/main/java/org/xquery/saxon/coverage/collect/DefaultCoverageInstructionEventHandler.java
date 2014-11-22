@@ -27,12 +27,12 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
     private Map<QueryModule, ModuleId> moduleIds = new WeakHashMap<>();
     private Map<ModuleId, ModuleCollector> modulesCollector = new HashMap<>();
     private Map<InstructionId, InstructionCollector> instructionCollectors = new HashMap<>();
-    private Set<InstructionId> instractionsOfModuleWithoutUri = new HashSet<>();
+    private Set<InstructionId> instructionsOfModuleWithoutUri = new HashSet<>();
 
     public synchronized void handle(CoverageInstructionCreatedEvent event) {
         ModuleUri moduleUri = getModuleUri(event.getQueryModule());
         if (moduleUri == null) {
-            instractionsOfModuleWithoutUri.add(event.getInstruction().getInstructionId());
+            instructionsOfModuleWithoutUri.add(event.getInstruction().getInstructionId());
         } else {
             InstructionCollector instructionCollector = getModuleCollector(event.getQueryModule(), moduleUri)
                     .instructionCreated(event.getInstruction());
@@ -41,7 +41,7 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
     }
 
     public synchronized void handle(CoverageInstructionInvokedEvent event) {
-        if (!instractionsOfModuleWithoutUri.contains(event.getInstructionId())) {
+        if (!instructionsOfModuleWithoutUri.contains(event.getInstructionId())) {
             instructionCollectors.get(event.getInstructionId()).instructionInvoked();
         }
     }

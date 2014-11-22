@@ -23,21 +23,27 @@ public class TraceExtensionComposite implements TraceExtension {
         this.components = ImmutableList.copyOf(components);
     }
 
-    @Override
+    @Override @Nullable
     public TraceCodeInjector getTraceCodeInjector() {
         Function<TraceExtension, TraceCodeInjector> getTraceCodeInjector = new Function<TraceExtension, TraceCodeInjector>() {
             @Nullable @Override public TraceCodeInjector apply(TraceExtension input) {
                 return input.getTraceCodeInjector();
             }
         };
-        return new TraceCodeInjectorComposite(FluentIterable
+        List<TraceCodeInjector> traceCodeInjectors = FluentIterable
                 .from(components)
                 .transform(getTraceCodeInjector)
                 .filter(notNull())
-                .toList());
+                .toList();
+        if (traceCodeInjectors.isEmpty()) {
+            return null;
+        } else {
+            return new TraceCodeInjectorComposite(traceCodeInjectors);
+        }
+
     }
 
-    @Override
+    @Override @Nullable
     public TraceListener getTraceListener() {
         Function<TraceExtension, TraceListener> getTraceListener = new Function<TraceExtension, TraceListener>() {
             @Override
@@ -45,11 +51,16 @@ public class TraceExtensionComposite implements TraceExtension {
                 return input.getTraceListener();
             }
         };
-        return new TraceListenerComposite(FluentIterable
+        List<TraceListener> traceListeners = FluentIterable
                 .from(components)
                 .transform(getTraceListener)
                 .filter(notNull())
-                .toList());
+                .toList();
+        if (traceListeners.isEmpty()) {
+            return null;
+        } else {
+            return new TraceListenerComposite(traceListeners);
+        }
     }
 
     @Override
