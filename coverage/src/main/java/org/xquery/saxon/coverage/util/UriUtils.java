@@ -16,4 +16,8 @@ public final class UriUtils {
             throw new RuntimeException(e);
         }
     }
+
+    public static String uriToFilename(URI uri) {
+        return uri.getPath().replace("/", "_").replace(":", "");
+    }
 }

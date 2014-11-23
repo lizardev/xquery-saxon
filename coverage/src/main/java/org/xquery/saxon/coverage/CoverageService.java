@@ -1,8 +1,9 @@
 package org.xquery.saxon.coverage;
 
 import org.xquery.saxon.coverage.collect.DefaultCoverageInstructionEventHandler;
+import org.xquery.saxon.coverage.report.FileReportPrinter;
 import org.xquery.saxon.coverage.report.Report;
-import org.xquery.saxon.coverage.report.TextReportPrinter;
+import org.xquery.saxon.coverage.report.StreamReportPrinter;
 import org.xquery.saxon.coverage.trace.CoverageInstructionInjector;
 import org.xquery.saxon.coverage.trace.CoverageInstructionListener;
 
@@ -20,7 +21,9 @@ public class CoverageService {
         if (new SystemProperties().isCoverageReportPrintingOnShutdownEnabled()) {
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 public void run() {
-                    new TextReportPrinter().print(defaultCoverageInstructionEventHandler.getReport(), System.out);
+                    Report report = defaultCoverageInstructionEventHandler.getReport();
+                    new StreamReportPrinter(System.err).print(report);
+                    new FileReportPrinter().print(report);
                 }
             });
         }
