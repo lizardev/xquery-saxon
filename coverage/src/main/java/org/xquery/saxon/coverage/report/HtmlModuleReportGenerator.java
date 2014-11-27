@@ -12,13 +12,18 @@ import static org.xquery.saxon.coverage.util.FileUtils.readLines;
 public class HtmlModuleReportGenerator {
 
     public String generate(ModuleReport moduleReport) {
-        List<String> lines = readLines(moduleReport.getModuleUri().getUri());
+        List<String> sourceCodeLines = readLines(moduleReport.getModuleUri().getUri());
         List<LineReport> lineReports = new ArrayList<>();
-        for (int i = 1; i <= lines.size(); i++) {
+        for (int i = 1; i <= sourceCodeLines.size(); i++) {
+            String sourceCodeLine = sourceCodeLines.get(i - 1);
             LineReport lineReport = moduleReport.getLineReport(i);
-            lineReports.add(lineReport);
+            if (lineReport == null) {
+                lineReports.add(new LineReport(i, sourceCodeLine));
+            } else {
+                lineReports.add(new LineReport(i, lineReport.getInstructionReports(), sourceCodeLine));
+            }
         }
-        Map<String, ?> params = ImmutableMap.of("lineReports", lineReports, "lines", lines);
+        Map<String, ?> params = ImmutableMap.of("lineReports", lineReports);
         return renderTemplate("/org/xquery/saxon/coverage/report/ModuleReport.ftl", params);
     }
 }

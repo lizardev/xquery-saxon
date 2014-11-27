@@ -19,6 +19,10 @@ public class InstructionReport {
         return covered;
     }
 
+    public String getInstruction() {
+        return instruction;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, SHORT_PREFIX_STYLE).append("instruction", instruction).append("covered", covered).build();

@@ -70,6 +70,6 @@ class CoverageClause extends Clause implements CoverageInstruction {
 
     @Override
     public String toString() {
-        return String.format("lineNumber=%d, clause=trace", getLineNumber());
+        return target.toString();
     }
 }
