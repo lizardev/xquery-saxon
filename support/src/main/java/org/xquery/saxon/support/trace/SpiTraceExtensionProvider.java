@@ -12,8 +12,22 @@ import static org.xquery.saxon.support.common.OrderableComparator.ORDERABLE_COMP
 
 public class SpiTraceExtensionProvider implements TraceExtensionProvider {
 
+    public static final SpiTraceExtensionProvider INSTANCE = new SpiTraceExtensionProvider();
+    private volatile boolean initialized;
+    private TraceExtension traceExtension;
+
     @Override
     public TraceExtension getTraceExtension() {
+        if (!initialized) {
+            synchronized (this) {
+                traceExtension = createTraceExtension();
+                initialized = true;
+            }
+        }
+        return traceExtension;
+    }
+
+    private TraceExtension createTraceExtension() {
         Function<TraceExtensionProvider, TraceExtension> getTraceException = new Function<TraceExtensionProvider, TraceExtension>() {
             @Nullable @Override public TraceExtension apply(TraceExtensionProvider input) {
                 return input.getTraceExtension();
