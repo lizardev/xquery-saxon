@@ -77,7 +77,7 @@
             <td>
                 <#list lineReport.instructionReports as instructionReport>
                     <#assign instructionCssClass = instructionReport.covered?string("instruction-covered","instruction-not-covered")/>
-                    <pre class="${instructionCssClass}">${instructionReport.instruction}</pre>
+                    <pre class="${instructionCssClass}">${instructionReport.instruction?html}</pre>
                 </#list>
             </td>
         </tr>
