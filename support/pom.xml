@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>org.xquery.saxon</groupId>
+        <groupId>com.github.lizardev.xquery.saxon</groupId>
         <artifactId>xquery-saxon-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>

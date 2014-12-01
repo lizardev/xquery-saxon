@@ -8,7 +8,7 @@
     <version>0.1-SNAPSHOT</version>
 
     <parent>
-        <groupId>org.xquery.saxon</groupId>
+        <groupId>com.github.lizardev.xquery.saxon</groupId>
         <artifactId>xquery-saxon-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -21,7 +21,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.xquery.saxon</groupId>
+            <groupId>com.github.lizardev.xquery.saxon</groupId>
             <artifactId>xquery-saxon-support</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
