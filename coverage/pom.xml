@@ -7,6 +7,22 @@
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
 
+    <name>${artifactId}</name>
+    <description>XQuery Saxon Coverage</description>
+    <url>https://github.com/lizardev/xquery-saxon</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/lizardev/xquery-saxon</url>
+    </scm>
+
     <parent>
         <groupId>com.github.lizardev</groupId>
         <artifactId>xquery-saxon-parent</artifactId>
