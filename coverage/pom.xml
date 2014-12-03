@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
 
-    <name>${artifactId}</name>
+    <name>${project.artifactId}</name>
     <description>XQuery Saxon Coverage</description>
     <url>https://github.com/lizardev/xquery-saxon</url>
 
@@ -37,7 +37,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.lizardev.xquery.saxon</groupId>
+            <groupId>com.github.lizardev</groupId>
             <artifactId>xquery-saxon-support</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
