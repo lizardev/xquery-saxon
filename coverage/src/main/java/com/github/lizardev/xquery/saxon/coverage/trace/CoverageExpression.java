@@ -6,7 +6,7 @@ import net.sf.saxon.expr.parser.ExpressionVisitor;
 
 import static com.github.lizardev.xquery.saxon.coverage.trace.InstructionId.uniqueInstructionId;
 
-public class CoverageExpression extends TraceExpression implements CoverageInstruction {
+public class CoverageExpression extends TraceExpression {
 
     private final InstructionId instructionId = uniqueInstructionId();
     private final Expression child;
@@ -26,7 +26,6 @@ public class CoverageExpression extends TraceExpression implements CoverageInstr
         return this;
     }
 
-    @Override
     public InstructionId getInstructionId() {
         return instructionId;
     }

@@ -11,7 +11,7 @@ import net.sf.saxon.trace.ExpressionPresenter;
 
 import static com.github.lizardev.xquery.saxon.coverage.trace.InstructionId.uniqueInstructionId;
 
-class CoverageClause extends Clause implements CoverageInstruction {
+class CoverageClause extends Clause {
     private final InstructionId instructionId = uniqueInstructionId();
     private final Clause target;
     private final NamespaceResolver namespaceResolver;
@@ -27,14 +27,8 @@ class CoverageClause extends Clause implements CoverageInstruction {
         return namespaceResolver;
     }
 
-    @Override
     public InstructionId getInstructionId() {
         return instructionId;
-    }
-
-    @Override
-    public int getLineNumber() {
-        return target.getLocationId();
     }
 
     @Override
@@ -66,7 +60,6 @@ class CoverageClause extends Clause implements CoverageInstruction {
     public int getClauseKey() {
         return TRACE;
     }
-
 
     @Override
     public String toString() {

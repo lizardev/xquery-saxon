@@ -19,6 +19,6 @@ public class InstructionCollector {
     }
 
     public String getInstruction() {
-        return instruction.toString();
+        return instruction.getInstruction();
     }
 }

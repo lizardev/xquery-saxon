@@ -1,5 +1,8 @@
 package com.github.lizardev.xquery.saxon.coverage.trace;
 
+import com.github.lizardev.xquery.saxon.coverage.ModuleUri;
+import com.github.lizardev.xquery.saxon.coverage.collect.ModuleId;
+import com.github.lizardev.xquery.saxon.coverage.util.MapUtils;
 import net.sf.saxon.expr.Container;
 import net.sf.saxon.expr.Expression;
 import net.sf.saxon.expr.StaticContext;
@@ -8,8 +11,14 @@ import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.query.QueryModule;
 import net.sf.saxon.trace.TraceCodeInjector;
 
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import static com.github.lizardev.xquery.saxon.coverage.collect.ModuleId.uniqueModuleId;
+
 public class CoverageInstructionInjector extends TraceCodeInjector {
 
+    private final Map<QueryModule, ModuleId> moduleIds = new WeakHashMap<>();
     private final CoverageInstructionEventHandler eventHandler;
 
     public CoverageInstructionInjector(CoverageInstructionEventHandler eventHandler) {
@@ -17,20 +26,27 @@ public class CoverageInstructionInjector extends TraceCodeInjector {
     }
 
     @Override
-    public Expression inject(Expression expression, StaticContext env, int construct, StructuredQName qName) {
+    public synchronized Expression inject(Expression expression, StaticContext env, int construct, StructuredQName qName) {
         CoverageExpression coverageExpression = new CoverageExpression(expression);
         coverageExpression.setNamespaceResolver(env.getNamespaceResolver());
         coverageExpression.setConstructType(construct);
         coverageExpression.setObjectName(qName);
-        eventHandler.handle(new CoverageInstructionCreatedEvent(coverageExpression, (QueryModule) env));
+        CoverageInstruction coverageInstruction = new CoverageInstruction(coverageExpression.getInstructionId(), coverageExpression.toString(), expression.getLineNumber());
+        eventHandler.handle(createCoverageInstructionCreatedEvent((QueryModule) env, coverageInstruction));
         return coverageExpression;
     }
 
     @Override
-    public Clause injectClause(Clause clause, StaticContext env, Container container) {
+    public synchronized Clause injectClause(Clause clause, StaticContext env, Container container) {
         CoverageClause coverageClause = new CoverageClause(clause, env.getNamespaceResolver(), container);
-        eventHandler.handle(new CoverageInstructionCreatedEvent(coverageClause, (QueryModule) env));
+        CoverageInstruction coverageInstruction = new CoverageInstruction(coverageClause.getInstructionId(), coverageClause.toString(), clause.getLocationId());
+        eventHandler.handle(createCoverageInstructionCreatedEvent((QueryModule) env, coverageInstruction));
         return coverageClause;
     }
 
+    private CoverageInstructionCreatedEvent createCoverageInstructionCreatedEvent(QueryModule queryModule, CoverageInstruction coverageInstruction) {
+        ModuleId moduleId = MapUtils.putIfAbsent(moduleIds, queryModule, uniqueModuleId());
+        ModuleUri moduleUri = queryModule.getLocationURI() == null ? null : ModuleUri.fromUri(queryModule.getLocationURI());
+        return new CoverageInstructionCreatedEvent(moduleId, moduleUri, coverageInstruction);
+    }
 }

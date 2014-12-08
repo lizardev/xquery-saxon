@@ -24,6 +24,6 @@ public class HtmlModuleReportGenerator {
             }
         }
         Map<String, ?> params = ImmutableMap.of("lineReports", lineReports);
-        return renderTemplate("/org/xquery/saxon/coverage/report/ModuleReport.ftl", params);
+        return renderTemplate("/com/github/lizardev/xquery/saxon/coverage/report/ModuleReport.ftl", params);
     }
 }
