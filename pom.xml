@@ -6,7 +6,7 @@
     <groupId>com.github.lizardev</groupId>
     <artifactId>xquery-saxon-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
 
     <name>${project.artifactId}</name>
     <description>XQuery Saxon parent module</description>
@@ -19,6 +19,13 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Adam Laczynski</name>
+            <organizationUrl>https://github.com/lizardev</organizationUrl>
+        </developer>
+    </developers>
 
     <scm>
         <url>https://github.com/lizardev/xquery-saxon</url>
@@ -54,6 +61,10 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
 
     <build>

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>xquery-saxon-coverage</artifactId>
     <packaging>jar</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
 
     <name>${project.artifactId}</name>
     <description>XQuery Saxon Coverage</description>
@@ -19,6 +19,13 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Adam Laczynski</name>
+            <organizationUrl>https://github.com/lizardev</organizationUrl>
+        </developer>
+    </developers>
+
     <scm>
         <url>https://github.com/lizardev/xquery-saxon</url>
     </scm>
@@ -26,7 +33,7 @@
     <parent>
         <groupId>com.github.lizardev</groupId>
         <artifactId>xquery-saxon-parent</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -39,7 +46,7 @@
         <dependency>
             <groupId>com.github.lizardev</groupId>
             <artifactId>xquery-saxon-support</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
