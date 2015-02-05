@@ -1,10 +1,12 @@
 package com.github.lizardev.xquery.saxon.coverage;
 
-import net.sf.saxon.lib.TraceListener;
-import net.sf.saxon.trace.TraceCodeInjector;
-import com.github.lizardev.xquery.saxon.support.trace.TraceExtension;
 import com.github.lizardev.xquery.saxon.coverage.trace.CoverageInstructionInjector;
 import com.github.lizardev.xquery.saxon.coverage.trace.CoverageInstructionListener;
+import com.github.lizardev.xquery.saxon.support.trace.TraceExtension;
+import com.google.common.base.Optional;
+import net.sf.saxon.lib.TraceListener;
+import net.sf.saxon.trace.TraceCodeInjector;
+
 
 public class CoverageTraceExtension implements TraceExtension {
 
@@ -17,13 +19,13 @@ public class CoverageTraceExtension implements TraceExtension {
     }
 
     @Override
-    public TraceCodeInjector getTraceCodeInjector() {
-        return coverageInstructionInjector;
+    public Optional<TraceCodeInjector> getTraceCodeInjector() {
+        return Optional.of((TraceCodeInjector) coverageInstructionInjector);
     }
 
     @Override
-    public TraceListener getTraceListener() {
-        return coverageInstructionListener;
+    public Optional<TraceListener> getTraceListener() {
+        return Optional.of((TraceListener) coverageInstructionListener);
     }
 
     @Override
