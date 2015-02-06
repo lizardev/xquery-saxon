@@ -2,50 +2,7 @@
 <html>
 <head>
     <style type="text/css">
-        html {
-            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-            font-size: 12px;
-            padding: 0;
-            margin: 0;
-        }
-
-        pre {
-            padding: 0;
-            margin: 0;
-        }
-
-        table {
-            width: 100%;
-            border: none;
-        }
-
-        .line-covered {
-            background-color: #A5FF8A;
-            cursor: pointer;
-        }
-
-        .line-not-covered {
-            background-color: #FFA4A4;
-            cursor: pointer;
-        }
-
-        .line-number {
-            width: 30px;
-            min-width: 30px;
-            text-align: right;
-        }
-
-        .instructions {
-            display: none;
-        }
-
-        .instruction-covered {
-            background-color: #A5FF8A;
-        }
-
-        .instruction-not-covered {
-            background-color: #FFA4A4;
-        }
+        <#include "css/style.css" parse=false>
     </style>
     <script>
         function showOrHideInstructionsRow(instructionsRowId) {
