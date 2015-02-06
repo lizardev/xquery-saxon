@@ -10,18 +10,19 @@ import static com.google.common.collect.Lists.newArrayList;
 
 public class FileReportPrinter implements ReportPrinter {
     private File baseDir = new File("xquery-saxon-coverage");
-    private HtmlModuleReportGenerator reportGenerator = new HtmlModuleReportGenerator();
-    private IndexHtmlReportGenerator indexReportGenerator = new IndexHtmlReportGenerator();
+    private HtmlModuleReportGenerator moduleReportGenerator = new HtmlModuleReportGenerator();
+    private HtmlModuleReportIndexGenerator moduleReportIndexGenerator = new HtmlModuleReportIndexGenerator();
 
     @Override public void print(Report report) {
         deleteDir(baseDir);
-        List<ModuleReportFile> moduleReportFiles = newArrayList();
+        List<ModuleReportReference> moduleReportReferences = newArrayList();
         for (ModuleReport moduleReport : report.getModuleReports()) {
             File file = getHtmlModuleReportFile(moduleReport);
-            moduleReportFiles.add(new ModuleReportFile(moduleReport.getModuleUri().toString(), file.getAbsolutePath()));
-            write(file, reportGenerator.generate(moduleReport));
+            moduleReportReferences.add(new ModuleReportReference(
+                    moduleReport.getModuleUri().toString(), file.getName(), moduleReport.getLineCoverage()));
+            write(file, moduleReportGenerator.generate(moduleReport));
         }
-        write(new File(baseDir, "index.html"), indexReportGenerator.generate(moduleReportFiles));
+        write(new File(baseDir, "index.html"), moduleReportIndexGenerator.generate(moduleReportReferences));
     }
 
     private File getHtmlModuleReportFile(ModuleReport moduleReport) {

@@ -2,7 +2,7 @@
 <html>
 <head>
     <style type="text/css">
-        <#include "css/style.css" parse=false>
+        <#include "css/module-report.css" parse=false>
     </style>
     <script>
         function showOrHideInstructionsRow(instructionsRowId) {
