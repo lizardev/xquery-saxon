@@ -1,8 +1,9 @@
 package com.github.lizardev.xquery.saxon.support.trace;
 
-import javax.annotation.Nullable;
+
+import com.google.common.base.Optional;
 
 public interface TraceExtensionProvider {
 
-    @Nullable TraceExtension getTraceExtension();
+    Optional<TraceExtension> getTraceExtension();
 }
