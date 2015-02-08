@@ -12,6 +12,7 @@ public class FileReportPrinter implements ReportPrinter {
     private File baseDir = new File("xquery-saxon-coverage");
     private HtmlModuleReportGenerator moduleReportGenerator = new HtmlModuleReportGenerator();
     private HtmlModuleReportIndexGenerator moduleReportIndexGenerator = new HtmlModuleReportIndexGenerator();
+    private StaticResourceTransferor resourceTransferor = new StaticResourceTransferor();
 
     @Override public void print(Report report) {
         deleteDir(baseDir);
@@ -23,6 +24,7 @@ public class FileReportPrinter implements ReportPrinter {
             write(file, moduleReportGenerator.generate(moduleReport));
         }
         write(new File(baseDir, "index.html"), moduleReportIndexGenerator.generate(moduleReportReferences));
+        resourceTransferor.copyResources(baseDir);
     }
 
     private File getHtmlModuleReportFile(ModuleReport moduleReport) {

@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style type="text/css">
-        <#include "css/module-report.css" parse=false>
-    </style>
+    <link rel="stylesheet" href="css/module-report.css" type="text/css"/>
     <script>
         function showOrHideInstructionsRow(instructionsRowId) {
             var instructionsRow = document.getElementById(instructionsRowId);
