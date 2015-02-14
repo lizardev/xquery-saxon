@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="css/module-report-index.css" type="text/css"/>
-    <script src="js/jquery-2.1.3.min.js"></script>
+     <link rel="stylesheet" href="css/theme.blue.css" type="text/css"/>
+     <link rel="stylesheet" href="css/module-report-index.css" type="text/css"/>
+    <script src="js/jquery.min.js"></script>
     <script src="js/jquery.filtertable.min.js"></script>
     <script src="js/jquery.tablesorter.min.js"></script>
     <script>
     $(document).ready(function()
         {
-            $('table').tablesorter();
+            $('table').tablesorter({
+              theme : 'blue',
+            });
             $('table').filterTable({
                 minRows: 1
             });
