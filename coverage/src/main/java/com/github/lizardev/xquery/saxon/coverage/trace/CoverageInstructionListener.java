@@ -22,11 +22,7 @@ public class CoverageInstructionListener extends TraceListenerAdapter {
             Clause clause = ((ClauseInfo) instruction).getClause();
             if (clause instanceof CoverageClause) {
                 enter(((CoverageClause) clause).getInstructionId());
-            } else {
-                throw new IllegalStateException("unknown clause " + clause);
             }
-        } else {
-            throw new IllegalStateException("unknown instruction " + instruction);
         }
     }
 

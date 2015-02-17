@@ -6,8 +6,8 @@ import static com.github.lizardev.xquery.saxon.coverage.util.XQueryExecutorBuild
 
 public abstract class AbstractCoverageTest {
     protected CoverageService coverageService = new CoverageService();
-    protected CoverageTraceExtension traceExtension = new CoverageTraceExtension(
+    protected CoverageTraceExtension coverageTraceExtension = new CoverageTraceExtension(
             coverageService.getCoverageInstructionInjector(),
             coverageService.getCoverageInstructionListener());
-    protected XQueryExecutor xqueryExecutor = xQueryExecutor().withTraceExtension(traceExtension).build();
+    protected XQueryExecutor xqueryExecutor = xQueryExecutor().withTraceExtension(coverageTraceExtension).build();
 }

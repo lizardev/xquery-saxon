@@ -21,6 +21,7 @@ class CoverageClause extends Clause {
         this.target = target;
         this.namespaceResolver = namespaceResolver;
         this.container = container;
+        this.setLocationId(target.getLocationId());
     }
 
     public NamespaceResolver getNamespaceResolver() {
