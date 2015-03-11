@@ -181,7 +181,7 @@ declare function functx:change-element-names-deep
     $newNames as xs:QName* )  as node()* {
        
   if (count($oldNames) != count($newNames))
-  then error(xs:QName('functx:Different_number_of_names'))
+  then error(xs:QName(()))
   else
    for $node in $nodes
    return if ($node instance of element())
@@ -405,7 +405,7 @@ declare function functx:duration-from-timezone
        
    xs:dayTimeDuration(
      if (not(matches($timezone,'Z|[\+\-]\d{2}:\d{2}')))
-     then error(xs:QName('functx:Invalid_Timezone_Value'))
+     then error(xs:QName(()))
      else if ($timezone = 'Z')
      then 'PT0S'
      else replace($timezone,'\+?(\d{2}):\d{2}','PT$1H')
@@ -824,7 +824,7 @@ declare function functx:mmddyyyy-to-date
    then ()
    else if (not(matches($dateString,
                         '^\D*(\d{2})\D*(\d{2})\D*(\d{4})\D*$')))
-   then error(xs:QName('functx:Invalid_Date_Format'))
+   then error(xs:QName(()))
    else xs:date(replace($dateString,
                         '^\D*(\d{2})\D*(\d{2})\D*(\d{4})\D*$',
                         '$3-$1-$2'))
@@ -929,7 +929,7 @@ declare function functx:pad-integer-to-length
     $length as xs:integer )  as xs:string {
        
    if ($length < string-length(string($integerToPad)))
-   then error(xs:QName('functx:Integer_Longer_Than_Length'))
+   then error(xs:QName(()))
    else concat
          (functx:repeat-string(
             '0',$length - string-length(string($integerToPad))),
@@ -1296,7 +1296,7 @@ declare function functx:timezone-from-duration
    then replace(string($duration),'PT(1[0-4])H','$1:00')
    else if (matches(string($duration),'PT1[0-4]H'))
    then replace(string($duration),'PT(1[0-4])H','+$1:00')
-   else error(xs:QName('functx:Invalid_Duration_Value'))
+   else error(xs:QName(()))
  } ;
 
 declare function functx:total-days-from-duration 
