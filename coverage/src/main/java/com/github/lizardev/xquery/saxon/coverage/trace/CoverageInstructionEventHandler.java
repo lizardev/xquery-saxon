@@ -5,4 +5,6 @@ public interface CoverageInstructionEventHandler {
     void handle(CoverageInstructionCreatedEvent event);
 
     void handle(CoverageInstructionInvokedEvent event);
+
+    void handle(CoverageInstructionSimplifiedEvent event);
 }

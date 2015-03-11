@@ -5,17 +5,9 @@ import com.github.lizardev.xquery.saxon.coverage.report.InstructionReport;
 import com.github.lizardev.xquery.saxon.coverage.report.LineReport;
 import com.github.lizardev.xquery.saxon.coverage.report.ModuleReport;
 import com.github.lizardev.xquery.saxon.coverage.report.Report;
-import com.github.lizardev.xquery.saxon.coverage.trace.CoverageInstructionCreatedEvent;
-import com.github.lizardev.xquery.saxon.coverage.trace.CoverageInstructionEventHandler;
-import com.github.lizardev.xquery.saxon.coverage.trace.CoverageInstructionInvokedEvent;
-import com.github.lizardev.xquery.saxon.coverage.trace.InstructionId;
+import com.github.lizardev.xquery.saxon.coverage.trace.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class DefaultCoverageInstructionEventHandler implements CoverageInstructionEventHandler {
 
@@ -37,6 +29,14 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
     public synchronized void handle(CoverageInstructionInvokedEvent event) {
         if (!instructionsOfModuleWithoutUri.contains(event.getInstructionId())) {
             instructionCollectors.get(event.getInstructionId()).instructionInvoked();
+        }
+    }
+
+    @Override
+    public synchronized void handle(CoverageInstructionSimplifiedEvent event) {
+        if (!instructionsOfModuleWithoutUri.contains(event.getInstructionId())) {
+            InstructionCollector instructionCollector = instructionCollectors.remove(event.getInstructionId());
+            instructionCollector.instructionSimplified();
         }
     }
 
@@ -69,7 +69,9 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
     private LineReport getLineReport(LineCollector lineCollector) {
         List<InstructionReport> instructionReports = new ArrayList<>(lineCollector.getInstructionCollectors().size());
         for (InstructionCollector instructionCollector : lineCollector.getInstructionCollectors()) {
-            instructionReports.add(new InstructionReport(instructionCollector.getInstruction(), instructionCollector.isInstructionInvoked()));
+            if (!instructionCollector.isInstructionSimplified()) {
+                instructionReports.add(new InstructionReport(instructionCollector.getInstruction(), instructionCollector.isInstructionInvoked()));
+            }
         }
         return new LineReport(lineCollector.getLineNumber(), instructionReports);
     }

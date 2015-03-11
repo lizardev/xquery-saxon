@@ -1,7 +1,7 @@
 package com.github.lizardev.xquery.saxon.coverage.report;
 
-import com.google.common.collect.ImmutableList;
 import com.github.lizardev.xquery.saxon.coverage.ModuleUri;
+import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,16 @@ public class ModuleReport {
         ArrayList<LineReport> lines = new ArrayList<>(lineReports.size());
         for (LineReport lineReport : lineReports) {
             if (!lineReport.isFullyCovered()) {
+                lines.add(lineReport);
+            }
+        }
+        return lines;
+    }
+
+    public List<LineReport> getFullyCoveredLines() {
+        ArrayList<LineReport> lines = new ArrayList<>(lineReports.size());
+        for (LineReport lineReport : lineReports) {
+            if (lineReport.isFullyCovered()) {
                 lines.add(lineReport);
             }
         }
