@@ -19,13 +19,13 @@ public class CoverageTraceExtension implements TraceExtension {
     }
 
     @Override
-    public Optional<TraceCodeInjector> getTraceCodeInjector() {
-        return Optional.of((TraceCodeInjector) coverageInstructionInjector);
+    public TraceCodeInjector getTraceCodeInjector() {
+        return coverageInstructionInjector;
     }
 
     @Override
-    public Optional<TraceListener> getTraceListener() {
-        return Optional.of((TraceListener) coverageInstructionListener);
+    public TraceListener getTraceListener() {
+        return coverageInstructionListener;
     }
 
     @Override

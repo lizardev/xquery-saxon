@@ -22,7 +22,7 @@ public class SpiCoverageTraceExtensionProviderTest {
     public void shouldCreateSpiCoverageTraceExtensionProvider() throws IllegalAccessException {
         writeStaticField(CoverageService.class, "instance", null, true);
         System.setProperty(COVERAGE_ENABLED, StringUtils.EMPTY);
-        TraceExtension traceExtension = new SpiTraceExtensionProvider().getTraceExtension().get();
+        TraceExtension traceExtension = new SpiTraceExtensionProvider().getTraceExtension();
         XQueryExecutor xqueryExecutor = xQueryExecutor().withTraceExtension(traceExtension).build();
 
         xqueryExecutor.execute(ONE_LINE_MODULE);

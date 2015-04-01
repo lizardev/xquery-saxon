@@ -1,7 +1,6 @@
 package com.github.lizardev.xquery.saxon.support.trace;
 
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -10,6 +9,7 @@ import com.google.common.collect.Lists;
 import net.sf.saxon.lib.TraceListener;
 import net.sf.saxon.trace.TraceCodeInjector;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,12 +23,12 @@ public class TraceExtensionComposite implements TraceExtension {
         this.components = ImmutableList.copyOf(components);
     }
 
-    @Override
-    public Optional<TraceCodeInjector> getTraceCodeInjector() {
+    @Nullable @Override
+    public TraceCodeInjector getTraceCodeInjector() {
         Function<TraceExtension, TraceCodeInjector> getTraceCodeInjector = new Function<TraceExtension, TraceCodeInjector>() {
-            @Override
+            @Nullable @Override
             public TraceCodeInjector apply(TraceExtension input) {
-                return input.getTraceCodeInjector().get();
+                return input.getTraceCodeInjector();
             }
         };
         List<TraceCodeInjector> traceCodeInjectors = FluentIterable
@@ -37,19 +37,19 @@ public class TraceExtensionComposite implements TraceExtension {
                 .filter(notNull())
                 .toList();
         if (traceCodeInjectors.isEmpty()) {
-            return Optional.absent();
+            return null;
         } else {
-            return Optional.of((TraceCodeInjector) new TraceCodeInjectorComposite(traceCodeInjectors));
+            return new TraceCodeInjectorComposite(traceCodeInjectors);
         }
 
     }
 
-    @Override
-    public Optional<TraceListener> getTraceListener() {
+    @Nullable @Override
+    public TraceListener getTraceListener() {
         Function<TraceExtension, TraceListener> getTraceListener = new Function<TraceExtension, TraceListener>() {
             @Override
             public TraceListener apply(TraceExtension input) {
-                return input.getTraceListener().get();
+                return input.getTraceListener();
             }
         };
         List<TraceListener> traceListeners = FluentIterable
@@ -58,9 +58,9 @@ public class TraceExtensionComposite implements TraceExtension {
                 .filter(notNull())
                 .toList();
         if (traceListeners.isEmpty()) {
-            return Optional.absent();
+            return null;
         } else {
-            return Optional.of((TraceListener) new TraceListenerComposite(traceListeners));
+            return new TraceListenerComposite(traceListeners);
         }
     }
 

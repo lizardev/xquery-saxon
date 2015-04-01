@@ -19,13 +19,13 @@ public class CoverageTraceExtensionProviderTest {
     public void shouldProvideExtensionWhenCoverageIsEnabled() {
         given(systemProperties.isCoverageEnabled()).willReturn(true);
 
-        assertThat(provider.getTraceExtension().isPresent()).isTrue();
+        assertThat(provider.getTraceExtension()).isNotNull();
     }
 
     @Test
     public void shouldNotProvideExtensionWhenCoverageIsDisabled() {
         given(systemProperties.isCoverageEnabled()).willReturn(false);
 
-        assertThat(provider.getTraceExtension().isPresent()).isFalse();
+        assertThat(provider.getTraceExtension()).isNull();
     }
 }

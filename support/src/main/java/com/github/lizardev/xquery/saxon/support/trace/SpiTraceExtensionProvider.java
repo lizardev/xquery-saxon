@@ -1,9 +1,9 @@
 package com.github.lizardev.xquery.saxon.support.trace;
 
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.collect.FluentIterable;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.ServiceLoader;
 
@@ -14,10 +14,10 @@ public class SpiTraceExtensionProvider implements TraceExtensionProvider {
 
     public static final SpiTraceExtensionProvider INSTANCE = new SpiTraceExtensionProvider();
     private volatile boolean initialized;
-    private Optional<TraceExtension> traceExtension;
+    private TraceExtension traceExtension;
 
     @Override
-    public Optional<TraceExtension> getTraceExtension() {
+    public TraceExtension getTraceExtension() {
         if (!initialized) {
             synchronized (this) {
                 traceExtension = createTraceExtension();
@@ -27,11 +27,11 @@ public class SpiTraceExtensionProvider implements TraceExtensionProvider {
         return traceExtension;
     }
 
-    private Optional<TraceExtension> createTraceExtension() {
+    private TraceExtension createTraceExtension() {
         Function<TraceExtensionProvider, TraceExtension> getTraceExtension = new Function<TraceExtensionProvider, TraceExtension>() {
-            @Override
+            @Nullable @Override
             public TraceExtension apply(TraceExtensionProvider input) {
-                return input.getTraceExtension().get();
+                return input.getTraceExtension();
             }
         };
         List<TraceExtension> traceExtensions = FluentIterable.from(ServiceLoader.load(TraceExtensionProvider.class))
@@ -39,9 +39,9 @@ public class SpiTraceExtensionProvider implements TraceExtensionProvider {
                 .filter(notNull())
                 .toSortedList(ORDERABLE_COMPARATOR);
         if (traceExtensions.isEmpty()) {
-            return Optional.absent();
+            return null;
         } else {
-            return Optional.of((TraceExtension) new TraceExtensionComposite(traceExtensions));
+            return new TraceExtensionComposite(traceExtensions);
         }
     }
 }
