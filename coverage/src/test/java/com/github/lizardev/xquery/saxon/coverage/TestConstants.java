@@ -8,6 +8,9 @@ public final class TestConstants {
     public static final ModuleUri TWO_BRANCHES_MODULE = ModuleUri.fromResourceName("/TwoBranches.xq");
     public static final ModuleUri IMPORT_MAIN_MODULE = ModuleUri.fromResourceName("/import/Main.xq");
     public static final ModuleUri IMPORT_LIBRARY_MODULE = ModuleUri.fromResourceName("/import/Library.xq");
+    public static final ModuleUri DUPLICATED_TRACE_EXPRESSION_MODULE = ModuleUri.fromResourceName("/DuplicatedTraceExpression.xq");
+    public static final ModuleUri FUNCTX_MAIN_MODULE = ModuleUri.fromResourceName("/languagestructure/FunctxMain.xq");
+    public static final ModuleUri FUNCTX_MODULE = ModuleUri.fromResourceName("/languagestructure/Functx-1.0-nodoc-2007-01.xq");
 
     private TestConstants() {
     }

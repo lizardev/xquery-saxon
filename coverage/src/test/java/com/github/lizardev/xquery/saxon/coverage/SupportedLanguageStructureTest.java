@@ -1,13 +1,15 @@
 package com.github.lizardev.xquery.saxon.coverage;
 
-import org.junit.Test;
 import com.github.lizardev.xquery.saxon.coverage.report.Report;
+import org.junit.Test;
 
 import static com.github.lizardev.xquery.saxon.coverage.TestConstants.FUNCTIONS_MODULE;
+import static com.github.lizardev.xquery.saxon.coverage.TestConstants.FUNCTX_MAIN_MODULE;
+import static com.github.lizardev.xquery.saxon.coverage.TestConstants.FUNCTX_MODULE;
 import static com.github.lizardev.xquery.saxon.coverage.TestConstants.TOUR_MODULE;
 import static com.github.lizardev.xquery.saxon.coverage.assertj.ProjectAssertions.assertThat;
 
-public class BasicCoverageTest extends AbstractCoverageTest {
+public class SupportedLanguageStructureTest extends AbstractCoverageTest {
 
     @Test
     public void shouldCollectCoverageOfTourModule() {
@@ -27,5 +29,15 @@ public class BasicCoverageTest extends AbstractCoverageTest {
         Report report = coverageService.getReport();
         assertThat(report).hasNumberOfModules(1);
         assertThat(report.getModuleReport(FUNCTIONS_MODULE)).isFullyCovered();
+    }
+
+    @Test
+    public void shouldCollectCoverageOfFunctxModules() {
+        boolean result = xqueryExecutor.execute(FUNCTX_MAIN_MODULE);
+
+        assertThat(result).isTrue();
+        Report report = coverageService.getReport();
+        assertThat(report.getModuleReport(FUNCTX_MAIN_MODULE)).isFullyCovered();
+        assertThat(report.getModuleReport(FUNCTX_MODULE)).hasFullyCoveredLines(1341);
     }
 }

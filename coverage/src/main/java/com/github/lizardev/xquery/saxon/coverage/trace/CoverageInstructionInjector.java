@@ -27,7 +27,7 @@ public class CoverageInstructionInjector extends TraceCodeInjector {
 
     @Override
     public synchronized Expression inject(Expression expression, StaticContext env, int construct, StructuredQName qName) {
-        CoverageExpression coverageExpression = new CoverageExpression(expression);
+        CoverageExpression coverageExpression = new CoverageExpression(expression, eventHandler);
         coverageExpression.setNamespaceResolver(env.getNamespaceResolver());
         coverageExpression.setConstructType(construct);
         coverageExpression.setObjectName(qName);

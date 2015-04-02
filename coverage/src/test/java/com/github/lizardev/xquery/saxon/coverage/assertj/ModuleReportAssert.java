@@ -1,13 +1,13 @@
 package com.github.lizardev.xquery.saxon.coverage.assertj;
 
+import com.github.lizardev.xquery.saxon.coverage.report.LineReport;
+import com.github.lizardev.xquery.saxon.coverage.report.ModuleReport;
 import com.google.common.base.Function;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.Booleans;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Iterables;
-import com.github.lizardev.xquery.saxon.coverage.report.LineReport;
-import com.github.lizardev.xquery.saxon.coverage.report.ModuleReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,18 +30,28 @@ public class ModuleReportAssert extends AbstractAssert<ModuleReportAssert, Modul
 
     public ModuleReportAssert hasNotFullyCoveredLines(int... lineNumbers) {
         info.description("has not fully covered lines");
-        List<Integer> notFullyCoveredLineNumbers = transform(actual.getNotFullyCoveredLines(),
+        assertLineNumbers(actual.getNotFullyCoveredLines(), lineNumbers);
+        return this;
+    }
+
+    public ModuleReportAssert hasFullyCoveredLines(int... lineNumbers) {
+        info.description("has fully covered lines");
+        assertLineNumbers(actual.getFullyCoveredLines(), lineNumbers);
+        return this;
+    }
+
+    private void assertLineNumbers(List<LineReport> actualLineReports, int[] expectedLineNumbers) {
+        List<Integer> actualLineNumbers = transform(actualLineReports,
                 new Function<LineReport, Integer>() {
                     public Integer apply(LineReport input) {
                         return input.getLineNumber();
                     }
                 });
-        List<Integer> lineNumbersAsList = new ArrayList<>();
-        for (int lineNumber : lineNumbers) {
-            lineNumbersAsList.add(lineNumber);
+        List<Integer> expectedLineNumbersAsList = new ArrayList<>();
+        for (int expectedLineNumber : expectedLineNumbers) {
+            expectedLineNumbersAsList.add(expectedLineNumber);
         }
-        Iterables.instance().assertContainsAll(info, notFullyCoveredLineNumbers, lineNumbersAsList);
-        return this;
+        Iterables.instance().assertContainsAll(info, actualLineNumbers, expectedLineNumbersAsList);
     }
 
     public ModuleReportAssert isFullyCovered() {

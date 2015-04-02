@@ -33,7 +33,7 @@ public class XQueryExecutor {
         Processor processor = new Processor(configuration);
         xQueryCompiler = processor.newXQueryCompiler();
         StaticQueryContext staticQueryContext = xQueryCompiler.getUnderlyingStaticContext();
-        staticQueryContext.setCodeInjector(traceExtension.getTraceCodeInjector().get());
+        staticQueryContext.setCodeInjector(traceExtension.getTraceCodeInjector());
     }
 
     public <T> T execute(String query) {
@@ -66,7 +66,7 @@ public class XQueryExecutor {
             for (ExternalVariable externalVariable : context.getExternalVariables()) {
                 evaluator.setExternalVariable(externalVariable.getName(), new XdmAtomicValue(externalVariable.getValue()));
             }
-            evaluator.setTraceListener(traceExtension.getTraceListener().get());
+            evaluator.setTraceListener(traceExtension.getTraceListener());
             XdmValue result = evaluator.evaluate();
             return xdmValueConverter.convert(result);
         } catch (SaxonApiException e) {
