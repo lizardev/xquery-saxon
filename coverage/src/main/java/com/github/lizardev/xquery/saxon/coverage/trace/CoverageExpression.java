@@ -1,15 +1,14 @@
 package com.github.lizardev.xquery.saxon.coverage.trace;
 
+import com.github.lizardev.xquery.saxon.support.trace.ExtensibleTraceExpression;
 import net.sf.saxon.expr.Expression;
-import net.sf.saxon.expr.instruct.TraceExpression;
 import net.sf.saxon.expr.parser.ExpressionVisitor;
 import net.sf.saxon.trans.XPathException;
 
 import static com.github.lizardev.xquery.saxon.coverage.trace.InstructionId.uniqueInstructionId;
-import static com.github.lizardev.xquery.saxon.coverage.util.ReflectionUtils.getFieldValue;
 
 @SuppressWarnings("serial")
-public class CoverageExpression extends TraceExpression {
+public class CoverageExpression extends ExtensibleTraceExpression {
 
     private final InstructionId instructionId = uniqueInstructionId();
     private final CoverageInstructionEventHandler eventHandler;
@@ -35,9 +34,5 @@ public class CoverageExpression extends TraceExpression {
 
     public InstructionId getInstructionId() {
         return instructionId;
-    }
-
-    private Expression getChild() {
-        return getFieldValue(this, "child");
     }
 }
