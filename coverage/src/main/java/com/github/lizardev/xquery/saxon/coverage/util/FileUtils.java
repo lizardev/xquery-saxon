@@ -1,11 +1,14 @@
 package com.github.lizardev.xquery.saxon.coverage.util;
 
+import com.google.common.base.Preconditions;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 
 public class FileUtils {
@@ -36,6 +39,7 @@ public class FileUtils {
 
     public static void copyResourceToFile(String sourceResource, File destinationFile) {
         InputStream sourceStream = FileUtils.class.getClassLoader().getResourceAsStream(sourceResource);
+        checkNotNull(sourceStream, "Cannot find resource: " + sourceResource);
         try {
             copyInputStreamToFile(sourceStream, destinationFile);
         } catch (IOException e) {
