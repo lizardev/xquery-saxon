@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import net.sf.saxon.lib.TraceListener;
-import net.sf.saxon.trace.TraceCodeInjector;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -24,14 +23,14 @@ public class TraceExtensionComposite implements TraceExtension {
     }
 
     @Nullable @Override
-    public TraceCodeInjector getTraceCodeInjector() {
-        Function<TraceExtension, TraceCodeInjector> getTraceCodeInjector = new Function<TraceExtension, TraceCodeInjector>() {
+    public TraceCodeInjectorComponent getTraceCodeInjector() {
+        Function<TraceExtension, TraceCodeInjectorComponent> getTraceCodeInjector = new Function<TraceExtension, TraceCodeInjectorComponent>() {
             @Nullable @Override
-            public TraceCodeInjector apply(TraceExtension input) {
+            public TraceCodeInjectorComponent apply(TraceExtension input) {
                 return input.getTraceCodeInjector();
             }
         };
-        List<TraceCodeInjector> traceCodeInjectors = FluentIterable
+        List<TraceCodeInjectorComponent> traceCodeInjectors = FluentIterable
                 .from(components)
                 .transform(getTraceCodeInjector)
                 .filter(notNull())
