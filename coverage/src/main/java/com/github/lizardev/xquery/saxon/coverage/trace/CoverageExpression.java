@@ -20,7 +20,16 @@ public class CoverageExpression extends ExtensibleTraceExpression {
 
     @Override
     public String toString() {
-        return getChild().toString();
+        String childToString = getChild().toString();
+        if (childToString.contains("@")) {
+            return removeObjectsAddress(childToString);
+        } else {
+            return childToString;
+        }
+    }
+
+    private String removeObjectsAddress(String input) {
+        return input.substring(0, input.indexOf('@'));
     }
 
     @Override
