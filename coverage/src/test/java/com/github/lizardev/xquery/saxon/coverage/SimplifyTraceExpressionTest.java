@@ -2,16 +2,26 @@ package com.github.lizardev.xquery.saxon.coverage;
 
 import com.github.lizardev.xquery.saxon.coverage.report.LineReport;
 import com.github.lizardev.xquery.saxon.coverage.report.ModuleReport;
+import com.github.lizardev.xquery.saxon.coverage.util.XQueryExecutor;
 import org.junit.Test;
 
 import static com.github.lizardev.xquery.saxon.coverage.TestConstants.DUPLICATED_TRACE_EXPRESSION_MODULE;
 import static com.github.lizardev.xquery.saxon.coverage.assertj.ProjectAssertions.assertThat;
 
-public class SimplifyTraceExpressionTest extends AbstractCoverageTest {
+public class SimplifyTraceExpressionTest extends AbstractMultipleTraceExtensionsCoverageTest {
 
     @Test
-    public void shouldSimplifyDuplicatedTraceExpression() throws Exception {
-        xqueryExecutor.execute(DUPLICATED_TRACE_EXPRESSION_MODULE);
+    public void shouldSimplifyDuplicatedTraceExpressionWhenSingleTraceExtensionIsProvided() {
+        shouldSimplifyDuplicatedTraceExpression(xQueryExecutorWithSingleTraceExtension, coverageServiceForSingleTraceExtensionCases);
+    }
+
+    @Test
+    public void shouldSimplifyDuplicatedTraceExpressionWhenMultipleTraceExtensionsAreProvided() {
+        shouldSimplifyDuplicatedTraceExpression(xQueryExecutorWithMultipleTraceExtensions, coverageServiceForMultipleTraceExtensionsCases);
+    }
+
+    private void shouldSimplifyDuplicatedTraceExpression(XQueryExecutor xQueryExecutor, CoverageService coverageService) {
+        xQueryExecutor.execute(DUPLICATED_TRACE_EXPRESSION_MODULE);
 
         ModuleReport moduleReport = coverageService.getReport().getModuleReport(DUPLICATED_TRACE_EXPRESSION_MODULE);
         assertThat(moduleReport).hasFullyCoveredLines(1, 2);
