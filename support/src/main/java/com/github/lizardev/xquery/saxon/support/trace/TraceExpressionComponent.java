@@ -4,6 +4,7 @@ import net.sf.saxon.expr.Expression;
 import net.sf.saxon.expr.parser.ExpressionVisitor;
 import net.sf.saxon.trans.XPathException;
 
+@SuppressWarnings("serial")
 public class TraceExpressionComponent extends ExtensibleTraceExpression {
 
     private final int depth;
@@ -29,4 +30,7 @@ public class TraceExpressionComponent extends ExtensibleTraceExpression {
         return this;
     }
 
+    @Override public String toString() {
+        return getChild().toString();
+    }
 }
