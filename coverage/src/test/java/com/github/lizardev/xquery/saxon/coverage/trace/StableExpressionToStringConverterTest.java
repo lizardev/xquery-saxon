@@ -1,36 +1,47 @@
 package com.github.lizardev.xquery.saxon.coverage.trace;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import net.sf.saxon.expr.Expression;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import static junitparams.JUnitParamsRunner.$;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(JUnitParamsRunner.class)
 public class StableExpressionToStringConverterTest {
 
-    @Mock private Expression expression;
+    private Expression expression = mock(Expression.class);
     private StableExpressionToStringConverter stableExpressionToStringConverter = new StableExpressionToStringConverter();
 
-    @Test
-    public void shouldRemoveHashCodeSuffixWhenStringRepresentSaxonicaClassWithHashCodeSuffix() {
-        given(expression.toString()).willReturn("com.saxonica.functions.hof.CallableFunctionItem@6bee793f");
-
-        String expressionAsString = stableExpressionToStringConverter.toString(expression);
-
-        assertThat(expressionAsString).isEqualTo("com.saxonica.functions.hof.CallableFunctionItem");
+    private Object[] parameters() {
+        return $(
+                $("com.saxonica.functions.hof.CallableFunctionItem@6bee793f", "com.saxonica.functions.hof.CallableFunctionItem"),
+                $("(aa,com.saxonica.functions.hof.UserFunctionItem@134ff8f8), Q{http://www.w3.org}entry(aa, com.saxonica.functions.hof.UserFunctionItem@619f2af)",
+                        "(aa,com.saxonica.functions.hof.UserFunctionItem), Q{http://www.w3.org}entry(aa, com.saxonica.functions.hof.UserFunctionItem)"),
+                $("substring-after($nextStep,'@')", "substring-after($nextStep,'@')"),
+                $("com.saxonica.functions.hof.CallableFunctionItem", "com.saxonica.functions.hof.CallableFunctionItem")
+        );
     }
 
     @Test
-    public void shouldNotCovertWhenStringDoesNotRepresentClassName() {
-        String givenExpressionAsString = "substring-after($nextStep,'@')";
-        given(expression.toString()).willReturn(givenExpressionAsString);
+    @Parameters(method = "parameters")
+    public void shouldRemoveHashCodeSuffix(String beforeConversion, String afterConversion) {
+        given(expression.toString()).willReturn(beforeConversion);
 
-        String expressionAsString = stableExpressionToStringConverter.toString(expression);
+        assertThat(stableExpressionToStringConverter.toString(expression)).isEqualTo(afterConversion);
+    }
 
-        assertThat(expressionAsString).isEqualTo(givenExpressionAsString);
+    @Test
+    public void shouldReturnStoredValueWhenTheSameExpressionIsPassedSecondTimeInARow() {
+        given(expression.toString())
+                .willReturn("a")
+                .willReturn("b");
+
+        assertThat(stableExpressionToStringConverter.toString(expression)).isEqualTo("a");
+        assertThat(stableExpressionToStringConverter.toString(expression)).isEqualTo("a");
     }
 }

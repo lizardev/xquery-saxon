@@ -2,8 +2,11 @@ package com.github.lizardev.xquery.saxon.coverage.trace;
 
 import net.sf.saxon.expr.Expression;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class StableExpressionToStringConverter {
-    private static final String HASH_CODE_SEPARATOR = "@";
+    private static final Pattern CLASS_NAME_WITH_HASH_CODE_SUFFIX = Pattern.compile("(com\\.saxonica\\..+?)@[0-9abcdef]+");
     private Expression lastExpression;
     private String lastExpressionAsString;
 
@@ -16,22 +19,12 @@ public class StableExpressionToStringConverter {
     }
 
     private String convertToString(Expression expression) {
-        String expressionAsString = expression.toString();
-        if (startsWithClassName(expressionAsString) && containsHashCodeSuffix(expressionAsString)) {
-            expressionAsString = removeHashCodeSuffix(expressionAsString);
+        Matcher matcher = CLASS_NAME_WITH_HASH_CODE_SUFFIX.matcher(expression.toString());
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group(1));
         }
-        return expressionAsString;
-    }
-
-    private String removeHashCodeSuffix(String expressionAsString) {
-        return expressionAsString.substring(0, expressionAsString.indexOf(HASH_CODE_SEPARATOR));
-    }
-
-    private boolean containsHashCodeSuffix(String expressionAsString) {
-        return expressionAsString.contains(HASH_CODE_SEPARATOR);
-    }
-
-    private boolean startsWithClassName(String expressionAsString) {
-        return expressionAsString.startsWith("com.saxonica") || expressionAsString.startsWith("net.sf.saxon");
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 }
