@@ -1,6 +1,7 @@
 package com.github.lizardev.xquery.saxon.coverage;
 
 import com.github.lizardev.xquery.saxon.coverage.report.ModuleReport;
+import com.github.lizardev.xquery.saxon.support.trace.TraceCodeInjectorComponent;
 import com.github.lizardev.xquery.saxon.support.trace.TraceExtension;
 import com.github.lizardev.xquery.saxon.support.trace.TraceExtensionComposite;
 import com.github.lizardev.xquery.saxon.support.trace.TraceListenerAdapter;
@@ -9,8 +10,6 @@ import net.sf.saxon.expr.Container;
 import net.sf.saxon.expr.StaticContext;
 import net.sf.saxon.expr.flwor.Clause;
 import net.sf.saxon.lib.TraceListener;
-import net.sf.saxon.trace.TraceCodeInjector;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.github.lizardev.xquery.saxon.coverage.TestConstants.TOUR_MODULE;
@@ -29,8 +28,6 @@ public class AdditionalTraceExtensionTest {
     private FakeTraceExtension fakeTraceExtension = new FakeTraceExtension();
 
     @Test
-    // TODO
-    @Ignore("does not work with current expression#simplify implementation")
     public void shouldCollectCoverageWhenAdditionalTraceExtensionIsProvided() {
         xQueryExecutor().withTraceExtension(coverageTraceExtension1)
                 .build().execute(TOUR_MODULE);
@@ -45,13 +42,13 @@ public class AdditionalTraceExtensionTest {
 
     private static class FakeTraceExtension implements TraceExtension {
         @Override
-        public TraceCodeInjector getTraceCodeInjector() {
+        public TraceCodeInjectorComponent getTraceCodeInjector() {
             return new FakeTraceCodeInjector();
         }
 
         @Override
         public TraceListener getTraceListener() {
-            return new FakeTraceLister();
+            return new FakeTraceListener();
         }
 
         @Override
@@ -66,7 +63,7 @@ public class AdditionalTraceExtensionTest {
 
     }
 
-    private static class FakeTraceCodeInjector extends TraceCodeInjector {
+    private static class FakeTraceCodeInjector extends TraceCodeInjectorComponent {
         @Override
         public Clause injectClause(Clause target, StaticContext env, Container container) {
             Clause clause = super.injectClause(target, env, container);
@@ -75,6 +72,6 @@ public class AdditionalTraceExtensionTest {
         }
     }
 
-    private static class FakeTraceLister extends TraceListenerAdapter {
+    private static class FakeTraceListener extends TraceListenerAdapter {
     }
 }

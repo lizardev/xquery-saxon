@@ -10,19 +10,20 @@ import net.sf.saxon.trace.TraceCodeInjector;
 
 import java.util.List;
 
-public class TraceCodeInjectorComposite extends TraceCodeInjector {
+public class TraceCodeInjectorComposite extends TraceCodeInjectorComponent {
 
-    private final List<TraceCodeInjector> reversedTraceCodeInjectors;
+    private final List<TraceCodeInjectorComponent> reversedTraceCodeInjectors;
 
-    public TraceCodeInjectorComposite(List<TraceCodeInjector> traceCodeInjectors) {
+    public TraceCodeInjectorComposite(List<TraceCodeInjectorComponent> traceCodeInjectors) {
         this.reversedTraceCodeInjectors = ImmutableList.copyOf(traceCodeInjectors).reverse();
     }
 
     @Override
     public Expression inject(Expression expression, StaticContext env, int construct, StructuredQName qName) {
         Expression wrappedExpression = expression;
-        for (TraceCodeInjector traceCodeInjector : reversedTraceCodeInjectors) {
-            wrappedExpression = traceCodeInjector.inject(wrappedExpression, env, construct, qName);
+        int depth = 0;
+        for (TraceCodeInjectorComponent reversedTraceCodeInjector : reversedTraceCodeInjectors) {
+            wrappedExpression = reversedTraceCodeInjector.inject(wrappedExpression, env, construct, qName, depth++);
         }
         return wrappedExpression;
     }

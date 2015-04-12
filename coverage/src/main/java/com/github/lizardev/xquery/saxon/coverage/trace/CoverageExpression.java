@@ -1,6 +1,6 @@
 package com.github.lizardev.xquery.saxon.coverage.trace;
 
-import com.github.lizardev.xquery.saxon.support.trace.ExtensibleTraceExpression;
+import com.github.lizardev.xquery.saxon.support.trace.TraceExpressionComponent;
 import net.sf.saxon.expr.Expression;
 import net.sf.saxon.expr.parser.ExpressionVisitor;
 import net.sf.saxon.trans.XPathException;
@@ -10,7 +10,7 @@ import static com.github.lizardev.xquery.saxon.coverage.trace.InstructionId.uniq
 import static org.apache.commons.lang3.StringUtils.isAlphanumeric;
 
 @SuppressWarnings("serial")
-public class CoverageExpression extends ExtensibleTraceExpression {
+public class CoverageExpression extends TraceExpressionComponent {
 
     private static final int OBJECTS_ADDRESS_NUMBER_OF_CHARACTERS = 8;
     private static final char AT_CHARACTER = '@';
@@ -18,8 +18,8 @@ public class CoverageExpression extends ExtensibleTraceExpression {
     private final InstructionId instructionId = uniqueInstructionId();
     private final CoverageInstructionEventHandler eventHandler;
 
-    public CoverageExpression(Expression child, CoverageInstructionEventHandler eventHandler) {
-        super(child);
+    public CoverageExpression(Expression expression, int depth, CoverageInstructionEventHandler eventHandler) {
+        super(expression, depth);
         this.eventHandler = eventHandler;
     }
 

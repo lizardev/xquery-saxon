@@ -2,6 +2,7 @@ package com.github.lizardev.xquery.saxon.coverage;
 
 import com.github.lizardev.xquery.saxon.coverage.trace.CoverageInstructionInjector;
 import com.github.lizardev.xquery.saxon.coverage.trace.CoverageInstructionListener;
+import com.github.lizardev.xquery.saxon.support.trace.TraceCodeInjectorComponent;
 import com.github.lizardev.xquery.saxon.support.trace.TraceExtension;
 import com.google.common.base.Optional;
 import net.sf.saxon.lib.TraceListener;
@@ -19,7 +20,7 @@ public class CoverageTraceExtension implements TraceExtension {
     }
 
     @Override
-    public TraceCodeInjector getTraceCodeInjector() {
+    public TraceCodeInjectorComponent getTraceCodeInjector() {
         return coverageInstructionInjector;
     }
 
