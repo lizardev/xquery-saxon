@@ -4,49 +4,25 @@ import com.github.lizardev.xquery.saxon.support.trace.TraceExpressionComponent;
 import net.sf.saxon.expr.Expression;
 import net.sf.saxon.expr.parser.ExpressionVisitor;
 import net.sf.saxon.trans.XPathException;
-import org.apache.commons.lang3.StringUtils;
 
 import static com.github.lizardev.xquery.saxon.coverage.trace.InstructionId.uniqueInstructionId;
-import static org.apache.commons.lang3.StringUtils.isAlphanumeric;
 
 @SuppressWarnings("serial")
 public class CoverageExpression extends TraceExpressionComponent {
 
-    private static final int OBJECTS_ADDRESS_NUMBER_OF_CHARACTERS = 8;
-    private static final char AT_CHARACTER = '@';
-
     private final InstructionId instructionId = uniqueInstructionId();
     private final CoverageInstructionEventHandler eventHandler;
+    private final StableExpressionToStringConverter stableExpressionToStringConverter;
 
     public CoverageExpression(Expression expression, int depth, CoverageInstructionEventHandler eventHandler) {
         super(expression, depth);
         this.eventHandler = eventHandler;
+        this.stableExpressionToStringConverter = new StableExpressionToStringConverter();
     }
 
     @Override
     public String toString() {
-        String childToString = getChild().toString();
-        return removeObjectsAddress(childToString);
-    }
-
-    private String removeObjectsAddress(String input) {
-        int atCharacterIndex = input.indexOf(AT_CHARACTER);
-        if (canHaveObjectsAddress(input, atCharacterIndex)) {
-            int possibleObjectsAddressEndIndex = atCharacterIndex + OBJECTS_ADDRESS_NUMBER_OF_CHARACTERS;
-            String possibleObjectsAddress = input.substring(atCharacterIndex + 1, possibleObjectsAddressEndIndex + 1);
-            if (isAlphanumeric(possibleObjectsAddress)) {
-                return input.replace(AT_CHARACTER + possibleObjectsAddress, StringUtils.EMPTY);
-            }
-        }
-        return input;
-    }
-
-    private boolean canHaveObjectsAddress(String input, int atCharacterIndex) {
-        return atCharacterIndex != -1 && lengthAfterAtCharacter(input, atCharacterIndex) >= OBJECTS_ADDRESS_NUMBER_OF_CHARACTERS;
-    }
-
-    private int lengthAfterAtCharacter(String input, int atCharacterIndex) {
-        return input.substring(atCharacterIndex + 1, input.length()).length();
+        return stableExpressionToStringConverter.toString(getChild());
     }
 
     @Override
