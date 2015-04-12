@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import net.sf.saxon.lib.TraceListener;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +21,10 @@ public class TraceExtensionComposite implements TraceExtension {
 
     public TraceExtensionComposite(List<TraceExtension> components) {
         this.components = ImmutableList.copyOf(components);
+    }
+
+    public TraceExtensionComposite(TraceExtension... components) {
+        this(Arrays.asList(components));
     }
 
     @Nullable @Override
