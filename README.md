@@ -8,7 +8,7 @@
 * `TraceExtension`s could be provided via generic Service Provider Interface (SPI). It makes prod code independent on potential `TraceExtension`
 
 ## xquery-saxon-coverage module features
-* Coverage collection from many module compilations
+* Coverage collection from many module's compilations
 * Coverage report per line and instruction in HTML format
 
 ## Configuration
@@ -18,4 +18,4 @@
 ## IDE integration
 Provide Java system properties
 * `-Dxquery.saxon.coverage` - enables coverage collection
-* `-Dxquery.saxon.coverage.report.printing.on.shutdown` - prints coverage reports on JVM shutdown
+* `-Dxquery.saxon.coverage.report.printing.on.shutdown` - prints coverage reports on JVM shutdown in xquery-saxon-coverage dir
