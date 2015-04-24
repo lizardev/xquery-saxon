@@ -1,5 +1,7 @@
 package com.github.lizardev.xquery.saxon.coverage.report;
 
+import com.github.lizardev.xquery.saxon.coverage.SystemProperties;
+
 import java.io.File;
 import java.util.List;
 
@@ -9,7 +11,8 @@ import static com.github.lizardev.xquery.saxon.coverage.util.UriUtils.uriToFilen
 import static com.google.common.collect.Lists.newArrayList;
 
 public class FileReportPrinter implements ReportPrinter {
-    private File baseDir = new File("xquery-saxon-coverage");
+
+    private File baseDir = new File(new SystemProperties().getCoverageReportDirectory().or("target/xquery-saxon-coverage"));
     private HtmlModuleReportGenerator moduleReportGenerator = new HtmlModuleReportGenerator();
     private HtmlModuleReportIndexGenerator moduleReportIndexGenerator = new HtmlModuleReportIndexGenerator();
     private StaticResourceTransferor resourceTransferor = new StaticResourceTransferor();
