@@ -12,7 +12,10 @@ import static com.google.common.collect.Lists.newArrayList;
 
 public class FileReportPrinter implements ReportPrinter {
 
-    private File baseDir = new File(new SystemProperties().getCoverageReportDirectory().or("target/xquery-saxon-coverage"));
+    public static final String REPORT_INDEX = "index.html";
+    public static final String DEFAULT_REPORT_DIR = "target/xquery-saxon-coverage";
+
+    private File baseDir = new File(new SystemProperties().getCoverageReportDirectory().or(DEFAULT_REPORT_DIR));
     private HtmlModuleReportGenerator moduleReportGenerator = new HtmlModuleReportGenerator();
     private HtmlModuleReportIndexGenerator moduleReportIndexGenerator = new HtmlModuleReportIndexGenerator();
     private StaticResourceTransferor resourceTransferor = new StaticResourceTransferor();
@@ -26,7 +29,7 @@ public class FileReportPrinter implements ReportPrinter {
                     moduleReport.getModuleUri().toString(), file.getName(), moduleReport.getLineCoverage()));
             write(file, moduleReportGenerator.generate(moduleReport));
         }
-        write(new File(baseDir, "index.html"), moduleReportIndexGenerator.generate(moduleReportReferences));
+        write(new File(baseDir, REPORT_INDEX), moduleReportIndexGenerator.generate(moduleReportReferences));
         resourceTransferor.copyResources(baseDir);
     }
 

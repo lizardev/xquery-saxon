@@ -23,10 +23,10 @@
 <table class="tablesorter">
     <thead>
         <tr>
-            <th>
+            <th id="moduleColumn">
                 Module
             </th>
-            <th>
+            <th id="coverageColumn">
                 Line coverage
             </th>
         </tr>
