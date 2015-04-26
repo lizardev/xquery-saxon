@@ -1,7 +1,6 @@
 # XQuery Coverage for Saxon implementation
 
-## Continuous integration
-[![Build Status](https://travis-ci.org/lizardev/xquery-saxon.svg?branch=master)](https://travis-ci.org/lizardev/xquery-saxon)
+[![Build Status](https://travis-ci.org/lizardev/xquery-saxon.svg?branch=master)](https://travis-ci.org/lizardev/xquery-saxon) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.lizardev/xquery-saxon-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.lizardev/xquery-saxon-parent)
 
 ## xquery-saxon-support module features
 * many `TraceCodeInjector`s and `TraceListener`s supported in the same time via `TraceExtension` interface
