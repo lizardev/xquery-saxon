@@ -20,13 +20,18 @@ public class CoverageService {
         coverageInstructionListener = new CoverageInstructionListener(defaultCoverageInstructionEventHandler);
         if (new SystemProperties().isCoverageReportPrintingOnShutdownEnabled()) {
             Runtime.getRuntime().addShutdownHook(new Thread() {
+                @Override
                 public void run() {
-                    Report report = defaultCoverageInstructionEventHandler.getReport();
-                    new StreamReportPrinter(System.err).print(report);
-                    new FileReportPrinter().print(report);
+                    generateReport();
                 }
             });
         }
+    }
+
+    public void generateReport() {
+        Report report = defaultCoverageInstructionEventHandler.getReport();
+        new StreamReportPrinter(System.err).print(report);
+        new FileReportPrinter().print(report);
     }
 
     public Report getReport() {
