@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 public class StableExpressionToStringConverter {
     private static final Pattern CLASS_NAME_WITH_HASH_CODE_SUFFIX = Pattern.compile("(com\\.saxonica\\..+?)@[0-9abcdef]+");
+    private static final String ZERO_LENGTH_TEXT_NODE_AS_STRING = "ValueOf(\"\"), ";
     private Expression lastExpression;
     private String lastExpressionAsString;
 
@@ -19,7 +20,18 @@ public class StableExpressionToStringConverter {
     }
 
     private String convertToString(Expression expression) {
-        Matcher matcher = CLASS_NAME_WITH_HASH_CODE_SUFFIX.matcher(expression.toString());
+        String expressionAsString = expression.toString();
+        expressionAsString = removeHashCodeSuffixFromClassName(expressionAsString);
+        expressionAsString = removeZeroLengthTextNodeAddedBySaxonAsWorkaround(expressionAsString);
+        return expressionAsString;
+    }
+
+    private String removeZeroLengthTextNodeAddedBySaxonAsWorkaround(String expression) {
+        return expression.replace(ZERO_LENGTH_TEXT_NODE_AS_STRING, "");
+    }
+
+    private String removeHashCodeSuffixFromClassName(String expression) {
+        Matcher matcher = CLASS_NAME_WITH_HASH_CODE_SUFFIX.matcher(expression);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             matcher.appendReplacement(sb, matcher.group(1));
