@@ -2,16 +2,15 @@ package com.github.lizardev.xquery.saxon.support.trace;
 
 import net.sf.saxon.Controller;
 import net.sf.saxon.expr.XPathContext;
+import net.sf.saxon.lib.Logger;
 import net.sf.saxon.lib.TraceListener;
 import net.sf.saxon.om.Item;
 import net.sf.saxon.trace.InstructionInfo;
 
-import java.io.PrintStream;
-
 public class TraceListenerAdapter implements TraceListener {
 
     @Override
-    public void setOutputDestination(PrintStream stream) {
+    public void setOutputDestination(Logger logger) {
 
     }
 

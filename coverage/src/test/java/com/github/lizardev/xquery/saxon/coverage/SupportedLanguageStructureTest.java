@@ -18,8 +18,8 @@ public class SupportedLanguageStructureTest extends AbstractCoverageTest {
         Report report = coverageService.getReport();
         assertThat(report).hasNumberOfModules(1);
         assertThat(report.getModuleReport(TOUR_MODULE))
-                .hasCoverageCloseTo(0.91)
-                .hasNotFullyCoveredLines(51, 55, 68, 73, 152, 195, 310, 312, 322);
+                .hasCoverageCloseTo(0.93)
+                .hasNotFullyCoveredLines(57, 62, 141, 184, 299, 301, 311);
     }
 
     @Test

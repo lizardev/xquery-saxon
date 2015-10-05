@@ -3,11 +3,11 @@ package com.github.lizardev.xquery.saxon.support.trace;
 import com.google.common.collect.Lists;
 import net.sf.saxon.Controller;
 import net.sf.saxon.expr.XPathContext;
+import net.sf.saxon.lib.Logger;
 import net.sf.saxon.lib.TraceListener;
 import net.sf.saxon.om.Item;
 import net.sf.saxon.trace.InstructionInfo;
 
-import java.io.PrintStream;
 import java.util.List;
 
 public class TraceListenerComposite implements TraceListener {
@@ -19,9 +19,9 @@ public class TraceListenerComposite implements TraceListener {
     }
 
     @Override
-    public void setOutputDestination(PrintStream stream) {
+    public void setOutputDestination(Logger logger) {
         for (TraceListener traceListener : traceListeners) {
-            traceListener.setOutputDestination(stream);
+            traceListener.setOutputDestination(logger);
         }
     }
 
