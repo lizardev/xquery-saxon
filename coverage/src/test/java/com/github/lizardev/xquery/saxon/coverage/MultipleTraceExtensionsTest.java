@@ -17,7 +17,7 @@ public class MultipleTraceExtensionsTest extends AbstractMultipleTraceExtensions
         ModuleReport moduleReportForTwoTraceExtension = coverageServiceForMultipleTraceExtensionsCases.getReport().getModuleReport(TOUR_MODULE);
         assertThat(moduleReportForOneTraceExtension.getLineCoverage())
                 .isEqualTo(moduleReportForTwoTraceExtension.getLineCoverage());
-        assertThat(traceExtensionStubForMultipleTraceExtensionsCases.getTraceCodeInjector().numberOfInjectedInstructions()).isEqualTo(258);
-        assertThat(traceExtensionStubForMultipleTraceExtensionsCases.getTraceListener().numberOfEnteredInstructions()).isEqualTo(252415);
+        assertThat(traceExtensionStubForMultipleTraceExtensionsCases.getTraceCodeInjector().numberOfInjectedInstructions()).isEqualTo(260);
+        assertThat(traceExtensionStubForMultipleTraceExtensionsCases.getTraceListener().numberOfEnteredInstructions()).isEqualTo(117827);
     }
 }

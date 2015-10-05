@@ -1,22 +1,21 @@
-xquery version "1.0";
-declare namespace saxon = "http://saxon.sf.net/";
-declare namespace tour = "http://wrox.com/tour";
+xquery version "3.0";
+declare namespace tour="http://wrox.com/tour";
 
 (:
     XQuery program to perform a knight's tour of the chessboard.
     Author: Michael H. Kay
     Date: 26 June 2003
+    Modified: 25 Sept 2014
     
-    This version modified to use XQuery 1.0, with sequences and functions.
+    This version modified to use XQuery 3.0, with sequences and functions.
 
     This query does not use a source document.
     There is an optional parameter, start, which can be set to any square on the
-    chessboard, e.g. a3 or h5. XQuery does not allow parameters to be given a
-    default value, so the parameter is mandatory.
+    chessboard, e.g. a3 or h5. By default the tour starts at a1.
     
     There is a second optional parameter, end, which indicates that the processing should stop
-    after a given number of steps. This can be used to animate the display of the tour. This
-    works especially well when the query is compiled into a Java servlet.
+    after a given number of steps (the default value is 64). This can be used to animate the 
+    display of the tour. This works especially well when the query is compiled into a Java servlet.
 
     The output is an HTML display of the completed tour.
 
@@ -29,11 +28,9 @@ declare namespace tour = "http://wrox.com/tour";
       
 :)
 
-declare option saxon:default "'a1'";
-declare variable $start as xs:string external;
+declare variable $start as xs:string external :='a1';
 
-declare option saxon:default "'64'";
-declare variable $end as xs:string external;
+declare variable $end as xs:string external :='64';
 declare variable $endd as xs:integer := xs:integer($end);
 
 (: start-column is an integer in the range 0-7 :)
@@ -47,23 +44,15 @@ declare variable $start-column as xs:integer :=
 declare variable $start-row as xs:integer :=
     8 - xs:integer(substring($start, 2, 1));
 
-declare function tour:a() as element() {
-    <a/>
-};
-
-declare function tour:b() as element() {
-    <b/>
-};
-
-declare function tour:main() as element() {
+declare function tour:main () as element() {
 
 (: This function controls the processing. It does not access the source document. :)
 
 (: Validate the input parameter :)
 
-    if (not(string-length($start) = 2) or
-            not(translate(substring($start, 1, 1), 'abcdefgh', 'aaaaaaaa') = 'a') or
-            not(translate(substring($start, 2, 1), '12345678', '11111111') = '1'))
+    if (not(string-length($start)=2) or
+            not(translate(substring($start,1,1), 'abcdefgh', 'aaaaaaaa')='a') or
+            not(translate(substring($start,2,1), '12345678', '11111111')='1'))
     then
         error((), "Invalid start parameter: try say 'a1' or 'g6'")
     else
@@ -93,10 +82,10 @@ declare function tour:main() as element() {
             return tour:print-board($final-board)
 };
 
-declare function tour:place-knight(
+declare function tour:place-knight (
         $move as xs:integer,
         $board as xs:integer*,
-        $square as xs:integer(: range 0 to 63 :)
+        $square as xs:integer (: range 0 to 63 :)
 ) as xs:integer* {
 
 (: This function places a knight on the board at a given square. The returned value is
@@ -108,10 +97,10 @@ declare function tour:place-knight(
 
 };
 
-declare function tour:make-moves(
+declare function tour:make-moves (
         $move as xs:integer,
         $board as xs:integer*,
-        $square as xs:integer(: range 0 to 63 :)
+        $square as xs:integer (: range 0 to 63 :)
 ) as xs:integer* {
 
 (: This function takes the board in a given state, decides on the next move to make,
@@ -128,11 +117,11 @@ declare function tour:make-moves(
     return tour:try-possible-moves($move, $board, $square, $possible-move-list)
 };
 
-declare function tour:try-possible-moves(
+declare function tour:try-possible-moves (
         $move as xs:integer,
         $board as xs:integer*,
         $square as xs:integer, (: range 0 to 63 :)
-        $possible-moves as xs:integer*)
+        $possible-moves as xs:integer* )
 as xs:integer* {
 
 (:   This function tries a set of possible moves that the knight can make
@@ -143,7 +132,7 @@ as xs:integer* {
          The function makes the selected move, and then calls make-moves() to make
          subsequent moves, returning the final state of the board. :)
 
-    if (count($possible-moves) != 0)
+    if (count($possible-moves)!=0)
     then tour:make-best-move($move, $board, $square, $possible-moves)
     else ()
 
@@ -151,11 +140,11 @@ as xs:integer* {
              of the board, to indicate to the caller that we got stuck :)
 };
 
-declare function tour:make-best-move(
+declare function tour:make-best-move (
         $move as xs:integer,
         $board as xs:integer*,
         $square as xs:integer, (: range 0 to 63 :)
-        $possible-moves as xs:integer*)
+        $possible-moves as xs:integer* )
 as xs:integer* {
 
 (: this function, given the state of the board and a set of possible moves,
@@ -182,7 +171,7 @@ as xs:integer* {
 
     let $final-board as xs:integer* :=
         if ($move < $endd) (:count($next-board[.=0])!=0:)
-        then tour:make-moves($move + 1, $next-board, $best-move)
+        then tour:make-moves($move+1, $next-board, $best-move)
         else $next-board
 
     (:   if the final board has the special value '()', we got stuck, and have to choose
@@ -197,11 +186,11 @@ as xs:integer* {
 
 };
 
-declare function tour:find-best-move(
+declare function tour:find-best-move (
         $board as xs:integer*,
         $possible-moves as xs:integer*,
         $fewest-exits as xs:integer,
-        $best-so-far as xs:integer)
+        $best-so-far as xs:integer )
 as xs:integer {
 
 (:  This function finds from among the possible moves, the one with fewest exits.
@@ -244,16 +233,16 @@ as xs:integer {
         Otherwise return the best move found. :)
 
     return
-        if (count($other-possible-moves) != 0)
+        if (count($other-possible-moves)!=0)
         then tour:find-best-move($board, $other-possible-moves,
                 $minimum-exits, $new-best-so-far)
         else $new-best-so-far
 
 };
 
-declare function tour:list-possible-moves(
+declare function tour:list-possible-moves (
         $board as xs:integer*,
-        $square as xs:integer)
+        $square as xs:integer )
 as xs:integer* {
 
 (:   This function, given the knight's position on the board, returns the set of squares
@@ -263,27 +252,27 @@ as xs:integer* {
     let $column as xs:integer := $square mod 8
 
     return
-        (if ($row > 1 and $column > 0 and $board[($square - 17) + 1] = 0)
+        (if ($row > 1 and $column > 0 and $board[($square - 17) + 1]=0)
         then $square - 17 else (),
-        if ($row > 1 and $column < 7 and $board[($square - 15) + 1] = 0)
+        if ($row > 1 and $column < 7 and $board[($square - 15) + 1]=0)
         then $square - 15 else (),
-        if ($row > 0 and $column > 1 and $board[($square - 10) + 1] = 0)
+        if ($row > 0 and $column > 1 and $board[($square - 10) + 1]=0)
         then $square - 10 else (),
-        if ($row > 0 and $column < 6 and $board[($square - 6) + 1] = 0)
+        if ($row > 0 and $column < 6 and $board[($square - 6) + 1]=0)
         then $square - 6 else (),
-        if ($row < 6 and $column > 0 and $board[($square + 15) + 1] = 0)
+        if ($row < 6 and $column > 0 and $board[($square + 15) + 1]=0)
         then $square + 15 else (),
-        if ($row < 6 and $column < 7 and $board[($square + 17) + 1] = 0)
+        if ($row < 6 and $column < 7 and $board[($square + 17) + 1]=0)
         then $square + 17 else (),
-        if ($row < 7 and $column > 1 and $board[($square + 6) + 1] = 0)
+        if ($row < 7 and $column > 1 and $board[($square + 6) + 1]=0)
         then $square + 6 else (),
-        if ($row < 7 and $column < 6 and $board[($square + 10) + 1] = 0)
-        then $square + 10 else ())
+        if ($row < 7 and $column < 6 and $board[($square + 10) + 1]=0)
+        then $square + 10 else () )
 
 };
 
-declare function tour:print-board(
-        $board as xs:integer*)
+declare function tour:print-board (
+        $board as xs:integer* )
 as element()
 {
 (: Output the board in HTML format :)
@@ -300,7 +289,7 @@ as element()
                         <tr>
                             {for $column in 0 to 7
                             let $color :=
-                                if ((($row + $column) mod 2) = 1)
+                                if ((($row + $column) mod 2)=1)
                                 then 'xffff44'
                                 else 'white' return
                                 <td align="center" bgcolor="{$color}" width="22">{
@@ -319,7 +308,7 @@ as element()
                 <p>{
                     if ($endd != 64)
                     then
-                        <a href="Tour?start={$start}&amp;end={$endd + 1}">Step</a>
+                        <a href="Tour?start={$start}&amp;end={$endd+1}">Step</a>
                     else ()
                 }</p>
             </div>
