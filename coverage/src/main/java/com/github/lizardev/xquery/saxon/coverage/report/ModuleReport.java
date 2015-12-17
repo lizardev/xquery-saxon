@@ -22,10 +22,6 @@ public class ModuleReport {
         return moduleUri;
     }
 
-    public List<LineReport> getLineReports() {
-        return lineReports;
-    }
-
     public List<LineReport> getNotFullyCoveredLines() {
         ArrayList<LineReport> lines = new ArrayList<>(lineReports.size());
         for (LineReport lineReport : lineReports) {
