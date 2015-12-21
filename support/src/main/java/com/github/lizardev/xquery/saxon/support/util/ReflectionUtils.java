@@ -10,16 +10,6 @@ public final class ReflectionUtils {
     private ReflectionUtils() {
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> T getFieldValue(Object object, String fieldName) {
-        try {
-            Field field = FieldUtils.getField(object.getClass(), fieldName, true);
-            return (T) FieldUtils.readField(field, object);
-        } catch (IllegalAccessException e) {
-            throw Throwables.propagate(e);
-        }
-    }
-
     public static void setFieldValue(Object object, String fieldName, Object fieldValue) {
         try {
             Field field = FieldUtils.getField(object.getClass(), fieldName, true);
