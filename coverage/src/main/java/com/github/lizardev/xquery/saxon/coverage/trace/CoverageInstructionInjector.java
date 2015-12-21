@@ -23,7 +23,7 @@ public class CoverageInstructionInjector extends TraceCodeInjectorComponent {
 
     public CoverageInstructionInjector(CoverageInstructionEventHandler eventHandler) {
         this.eventHandler = eventHandler;
-        Cache<QueryModule, ModuleId> cache = newBuilder().weakKeys().weakValues().build();
+        Cache<QueryModule, ModuleId> cache = newBuilder().weakKeys().build();
         moduleIds = cache.asMap();
     }
 
