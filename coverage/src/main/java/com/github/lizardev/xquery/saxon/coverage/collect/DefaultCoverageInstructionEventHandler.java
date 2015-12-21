@@ -8,6 +8,9 @@ import com.github.lizardev.xquery.saxon.coverage.report.Report;
 import com.github.lizardev.xquery.saxon.coverage.trace.*;
 
 import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 
 public class DefaultCoverageInstructionEventHandler implements CoverageInstructionEventHandler {
 
@@ -15,28 +18,45 @@ public class DefaultCoverageInstructionEventHandler implements CoverageInstructi
     private Map<InstructionId, InstructionCollector> instructionCollectors = new HashMap<>();
     private Set<InstructionId> instructionsOfModuleWithoutUri = new HashSet<>();
 
-    public synchronized void handle(CoverageInstructionCreatedEvent event) {
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
+
+    public void handle(CoverageInstructionCreatedEvent event) {
         ModuleUri moduleUri = event.getModuleUri();
-        if (moduleUri == null) {
-            instructionsOfModuleWithoutUri.add(event.getInstruction().getInstructionId());
-        } else {
-            InstructionCollector instructionCollector = getModuleCollector(event.getModuleId(), moduleUri)
-                    .instructionCreated(event.getInstruction());
-            instructionCollectors.put(event.getInstruction().getInstructionId(), instructionCollector);
+        lock.writeLock().lock();
+        try {
+            if (moduleUri == null) {
+                instructionsOfModuleWithoutUri.add(event.getInstruction().getInstructionId());
+            } else {
+                InstructionCollector instructionCollector = getModuleCollector(event.getModuleId(), moduleUri)
+                        .instructionCreated(event.getInstruction());
+                instructionCollectors.put(event.getInstruction().getInstructionId(), instructionCollector);
+            }
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
-    public synchronized void handle(CoverageInstructionInvokedEvent event) {
-        if (!instructionsOfModuleWithoutUri.contains(event.getInstructionId())) {
-            instructionCollectors.get(event.getInstructionId()).instructionInvoked();
+    public void handle(CoverageInstructionInvokedEvent event) {
+        lock.readLock().lock();
+        try {
+            if (!instructionsOfModuleWithoutUri.contains(event.getInstructionId())) {
+                instructionCollectors.get(event.getInstructionId()).instructionInvoked();
+            }
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     @Override
-    public synchronized void handle(CoverageInstructionSimplifiedEvent event) {
-        if (!instructionsOfModuleWithoutUri.contains(event.getInstructionId())) {
-            InstructionCollector instructionCollector = instructionCollectors.remove(event.getInstructionId());
-            instructionCollector.instructionSimplified();
+    public void handle(CoverageInstructionSimplifiedEvent event) {
+        lock.writeLock().lock();
+        try {
+            if (!instructionsOfModuleWithoutUri.contains(event.getInstructionId())) {
+                InstructionCollector instructionCollector = instructionCollectors.remove(event.getInstructionId());
+                instructionCollector.instructionSimplified();
+            }
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
