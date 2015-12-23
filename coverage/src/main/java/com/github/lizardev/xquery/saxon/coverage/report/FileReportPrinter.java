@@ -3,11 +3,13 @@ package com.github.lizardev.xquery.saxon.coverage.report;
 import com.github.lizardev.xquery.saxon.coverage.SystemProperties;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static com.github.lizardev.xquery.saxon.coverage.util.FileUtils.deleteDir;
 import static com.github.lizardev.xquery.saxon.coverage.util.FileUtils.write;
-import static com.github.lizardev.xquery.saxon.coverage.util.UriUtils.uriToFilename;
+import static com.github.lizardev.xquery.saxon.coverage.util.PathUtils.transformToRelativePath;
 import static com.google.common.collect.Lists.newArrayList;
 
 public class FileReportPrinter implements ReportPrinter {
@@ -20,13 +22,15 @@ public class FileReportPrinter implements ReportPrinter {
     private HtmlModuleReportIndexGenerator moduleReportIndexGenerator = new HtmlModuleReportIndexGenerator();
     private StaticResourceTransferor resourceTransferor = new StaticResourceTransferor();
 
-    @Override public void print(Report report) {
+    @Override
+    public void print(Report report) {
         deleteDir(baseDir);
         List<ModuleReportReference> moduleReportReferences = newArrayList();
         for (ModuleReport moduleReport : report.getModuleReports()) {
             File file = getHtmlModuleReportFile(moduleReport);
             moduleReportReferences.add(new ModuleReportReference(
-                    moduleReport.getModuleUri().toString(), file.getName(), moduleReport.getLineCoverage()));
+                    moduleReport.getModuleUri().toString(), baseDir.toPath().relativize(file.toPath()).toString(),
+                    moduleReport.getLineCoverage()));
             write(file, moduleReportGenerator.generate(moduleReport));
         }
         write(new File(baseDir, REPORT_INDEX), moduleReportIndexGenerator.generate(moduleReportReferences));
@@ -34,6 +38,8 @@ public class FileReportPrinter implements ReportPrinter {
     }
 
     private File getHtmlModuleReportFile(ModuleReport moduleReport) {
-        return new File(baseDir, uriToFilename(moduleReport.getModuleUri().getUri()) + ".html");
+        Path moduleFilePath = Paths.get(moduleReport.getModuleUri().getUri());
+        String moduleReportPath = transformToRelativePath(moduleFilePath).toString();
+        return new File(baseDir, "module-reports/" + moduleReportPath + ".html");
     }
 }
