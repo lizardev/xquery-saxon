@@ -19,12 +19,16 @@ public class TraceExpressionComponent extends ExtensibleTraceExpression {
     }
 
     public Expression simplify(ExpressionVisitor visitor) throws XPathException {
-        Expression child = visitor.simplify(getChild());
-        setChild(child);
-        if (child instanceof TraceExpressionComponent) {
-            TraceExpressionComponent childAsComponent = (TraceExpressionComponent) child;
+        Expression child = getChild();
+        Expression simplified = visitor.simplify(child);
+
+        if (!simplified.equals(child)) {
+            setChild(simplified);
+        }
+        if (simplified instanceof TraceExpressionComponent) {
+            TraceExpressionComponent childAsComponent = (TraceExpressionComponent) simplified;
             if (getDepth() <= childAsComponent.getDepth()) {
-                return child;
+                return simplified;
             }
         }
         return this;
