@@ -16,7 +16,7 @@ import static com.github.lizardev.xquery.saxon.coverage.util.XQueryExecutorBuild
 
 public class SpiCoverageTraceExtensionProviderTest {
 
-    @Rule public RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties(COVERAGE_ENABLED);
+    @Rule public RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
 
     @Test
     public void shouldCreateSpiCoverageTraceExtensionProvider() throws IllegalAccessException {
