@@ -24,6 +24,9 @@
             <name>Adam Laczynski</name>
             <organizationUrl>https://github.com/lizardev</organizationUrl>
         </developer>
+        <developer>
+            <name>Michal Jedynak</name>
+        </developer>
     </developers>
 
     <scm>
