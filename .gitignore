@@ -1,6 +1,10 @@
-.idea
+# idea
+.idea/
 *.iml
-target
-.project
-.settings
-.buildpath
+
+# maven
+target/
+
+# gradle
+.gradle/
+build/
