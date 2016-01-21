@@ -1,0 +1,6 @@
+dependencies {
+    compile "net.sf.saxon:Saxon-HE:$saxonVersion"
+    compile "com.google.guava:guava:$guavaVersion"
+    compile "org.apache.commons:commons-lang3:$commonsLangVersion"
+    compile "com.google.code.findbugs:jsr305:3.0.0"
+}
