@@ -1,0 +1,3 @@
+rootProject.name = 'xquery-saxon'
+include 'support'
+include 'coverage'

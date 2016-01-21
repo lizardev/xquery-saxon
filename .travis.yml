@@ -1,1 +1,7 @@
 language: java
+
+install: /bin/true
+
+script: ./gradlew clean build
+
+before_script: chmod +x gradlew
