@@ -1,0 +1,108 @@
+// todo
+// proper release plugin
+// nexus-staging-maven-plugin
+// maven-gpg-plugin
+
+defaultTasks 'clean', 'build'
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "com.netflix.nebula:gradle-extra-configurations-plugin:3.0.2"
+    }
+}
+
+subprojects {
+    group 'com.github.lizardev'
+    version '0.8-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'nebula.provided-base'
+
+    archivesBaseName = "$rootProject.name-$name"
+    sourceCompatibility = "1.7"
+    targetCompatibility = "1.7"
+
+    repositories {
+        mavenCentral()
+    }
+
+    ext {
+        saxonVersion = '9.6.0-7'
+        guavaVersion = '18.0'
+        commonsLangVersion = '3.4'
+    }
+
+    test {
+        testLogging {
+            events 'passed', 'skipped', 'failed'
+            exceptionFormat 'full'
+            showCauses true
+            afterSuite { desc, result ->
+                if (!desc.parent) {
+                    println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                }
+            }
+        }
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = "javadoc"
+        from javadoc.destinationDir
+    }
+
+    if (project.hasProperty('release')) {
+        artifacts {
+            archives sourcesJar
+            archives javadocJar
+        }
+    }
+
+    install {
+        repositories.mavenInstaller {
+            pom.whenConfigured { generatedPom ->
+                generatedPom.dependencies.removeAll { d ->
+                    d.scope == "test"
+                }
+                generatedPom.dependencies = generatedPom.dependencies.sort { d ->
+                    "$d.scope:$d.groupId:$d.artifactId"
+                }
+                generatedPom.project {
+                    name = project.description
+                    description = project.description
+                    url = 'https://github.com/lizardev/xquery-saxon'
+                    licenses {
+                        license {
+                            name = 'Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution = 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            name = 'Adam Laczynski'
+                            organizationUrl = 'https://github.com/lizardev'
+                        }
+                        developer {
+                            name = 'Michal Jedynak'
+                        }
+                    }
+                    scm {
+                        url = 'https://github.com/lizardev/xquery-saxon'
+                    }
+                }
+            }
+        }
+    }
+}
