@@ -30,7 +30,9 @@ public class CoverageService {
 
     public void generateReport() {
         Report report = defaultCoverageInstructionEventHandler.getReport();
-        new StreamReportPrinter(System.err).print(report);
+        if (new SystemProperties().isCoverageReportPrintingOnConsoleEnabled()) {
+            new StreamReportPrinter(System.err).print(report);
+        }
         new FileReportPrinter().print(report);
     }
 

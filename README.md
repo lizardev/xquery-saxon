@@ -18,4 +18,5 @@
 Provide Java system properties
 * `-Dxquery.saxon.coverage` - enables coverage collection
 * `-Dxquery.saxon.coverage.report.printing.on.shutdown` - prints coverage reports on JVM shutdown in report directory
+* `-Dxquery.saxon.coverage.skip.console.output` - don't print coverage reports to console
 * `-Dxquery.saxon.coverage.report.directory` - report directory, default value is `target/xquery-saxon-coverage`
