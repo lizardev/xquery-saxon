@@ -69,6 +69,10 @@ subprojects {
         }
     }
 
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << '-Xlint:all'
+    }
+
     install {
         repositories.mavenInstaller {
             pom.whenConfigured { generatedPom ->
