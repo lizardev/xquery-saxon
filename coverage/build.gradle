@@ -8,7 +8,7 @@ dependencies {
     compile "org.apache.commons:commons-lang3:$commonsLangVersion"
     compile 'org.freemarker:freemarker:2.3.18'
     testCompile 'junit:junit:4.12'
-    testCompile 'pl.pragmatists:JUnitParams:1.0.4'
+    testCompile 'pl.pragmatists:JUnitParams:1.1.0'
     testCompile 'org.assertj:assertj-core:1.7.0'
     testCompile 'com.github.stefanbirkner:system-rules:1.15.1'
     testCompile 'org.mockito:mockito-all:1.10.8'

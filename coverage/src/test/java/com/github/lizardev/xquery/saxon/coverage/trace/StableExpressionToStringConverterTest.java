@@ -18,13 +18,15 @@ public class StableExpressionToStringConverterTest {
     private StableExpressionToStringConverter stableExpressionToStringConverter = new StableExpressionToStringConverter();
 
     private Object[] hashCodeSuffixParameters() {
-        return $(
-                $("com.saxonica.functions.hof.CallableFunctionItem@6bee793f", "com.saxonica.functions.hof.CallableFunctionItem"),
-                $("(aa,com.saxonica.functions.hof.UserFunctionItem@134ff8f8), Q{http://www.w3.org}entry(aa, com.saxonica.functions.hof.UserFunctionItem@619f2af)",
-                        "(aa,com.saxonica.functions.hof.UserFunctionItem), Q{http://www.w3.org}entry(aa, com.saxonica.functions.hof.UserFunctionItem)"),
-                $("substring-after($nextStep,'@')", "substring-after($nextStep,'@')"),
-                $("com.saxonica.functions.hof.CallableFunctionItem", "com.saxonica.functions.hof.CallableFunctionItem")
-        );
+        return new Object[]{
+            new Object[]{"com.saxonica.functions.hof.CallableFunctionItem@6bee793f",
+                "com.saxonica.functions.hof.CallableFunctionItem"},
+            new Object[]{"(aa,com.saxonica.functions.hof.UserFunctionItem@134ff8f8), Q{http://www.w3.org}entry(aa, com.saxonica.functions.hof.UserFunctionItem@619f2af)",
+                "(aa,com.saxonica.functions.hof.UserFunctionItem), Q{http://www.w3.org}entry(aa, com.saxonica.functions.hof.UserFunctionItem)"},
+            new Object[]{"substring-after($nextStep,'@')", "substring-after($nextStep,'@')"},
+            new Object[]{"com.saxonica.functions.hof.CallableFunctionItem",
+                "com.saxonica.functions.hof.CallableFunctionItem"}
+        };
     }
 
     @Test
