@@ -6,7 +6,7 @@ dependencies {
     compile "com.google.guava:guava:$guavaVersion"
     compile 'commons-io:commons-io:2.5'
     compile "org.apache.commons:commons-lang3:$commonsLangVersion"
-    compile 'org.freemarker:freemarker:2.3.18'
+    compile 'org.freemarker:freemarker:2.3.26-incubating'
     testCompile 'junit:junit:4.12'
     testCompile 'pl.pragmatists:JUnitParams:1.1.0'
     testCompile 'org.assertj:assertj-core:1.7.0'
