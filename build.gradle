@@ -13,7 +13,8 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.netflix.nebula:gradle-extra-configurations-plugin:3.0.2"
+        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.2'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
     }
 }
 
@@ -24,6 +25,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'nebula.provided-base'
+    apply plugin: 'com.github.ben-manes.versions'
 
     archivesBaseName = "$rootProject.name-$name"
     sourceCompatibility = "1.7"
