@@ -4,7 +4,7 @@ dependencies {
     compile project(':support')
     provided "net.sf.saxon:Saxon-HE:$saxonVersion"
     compile "com.google.guava:guava:$guavaVersion"
-    compile 'commons-io:commons-io:2.4'
+    compile 'commons-io:commons-io:2.5'
     compile "org.apache.commons:commons-lang3:$commonsLangVersion"
     compile 'org.freemarker:freemarker:2.3.18'
     testCompile 'junit:junit:4.12'

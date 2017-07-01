@@ -1,5 +1,6 @@
 package com.github.lizardev.xquery.saxon.coverage;
 
+import java.nio.charset.Charset;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import com.github.lizardev.xquery.saxon.coverage.report.Report;
@@ -21,7 +22,7 @@ public class ModuleUriTest extends AbstractCoverageTest {
 
     @Test
     public void shouldNotCollectCoverageWhenModuleDoesNotHaveUri() throws IOException {
-        xqueryExecutor.execute(IOUtils.toString(ONE_LINE_MODULE.getUri()));
+        xqueryExecutor.execute(IOUtils.toString(ONE_LINE_MODULE.getUri(), Charset.defaultCharset()));
 
         Report report = coverageService.getReport();
         assertThat(report).isEmpty();

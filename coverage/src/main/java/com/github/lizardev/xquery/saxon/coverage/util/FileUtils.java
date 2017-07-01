@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -21,7 +22,7 @@ public class FileUtils {
 
     public static void write(File file, String content) {
         try {
-            org.apache.commons.io.FileUtils.write(file, content);
+            org.apache.commons.io.FileUtils.write(file, content, Charset.defaultCharset());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +30,7 @@ public class FileUtils {
 
     public static List<String> readLines(URI uri) {
         try {
-            return org.apache.commons.io.FileUtils.readLines(new File(uri));
+            return org.apache.commons.io.FileUtils.readLines(new File(uri), Charset.defaultCharset());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
