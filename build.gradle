@@ -37,7 +37,7 @@ subprojects {
 
     ext {
         saxonVersion = '9.6.0-10'
-        guavaVersion = '18.0'
+        guavaVersion = '22.0-android'
         commonsLangVersion = '3.6'
     }
 
