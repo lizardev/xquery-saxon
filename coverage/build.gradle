@@ -9,7 +9,7 @@ dependencies {
     compile 'org.freemarker:freemarker:2.3.26-incubating'
     testCompile 'junit:junit:4.12'
     testCompile 'pl.pragmatists:JUnitParams:1.1.0'
-    testCompile 'org.assertj:assertj-core:1.7.0'
+    testCompile 'org.assertj:assertj-core:2.8.0'
     testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
     testCompile 'org.mockito:mockito-all:1.10.8'
     testCompile 'org.seleniumhq.selenium:selenium-java:2.45.0'
