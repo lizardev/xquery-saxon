@@ -15,7 +15,7 @@ public final class ReflectionUtils {
             Field field = FieldUtils.getField(object.getClass(), fieldName, true);
             FieldUtils.writeField(field, object, fieldValue);
         } catch (IllegalAccessException e) {
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 }

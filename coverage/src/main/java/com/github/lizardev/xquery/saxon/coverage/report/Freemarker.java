@@ -1,5 +1,7 @@
 package com.github.lizardev.xquery.saxon.coverage.report;
 
+import static freemarker.template.Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS;
+
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 
@@ -8,11 +10,11 @@ import java.util.Map;
 
 public final class Freemarker {
     private static final String TEMPLATE_PATH_PREFIX = "/";
-    private static final Configuration CONFIGURATION = new Configuration();
+    private static final Configuration CONFIGURATION = new Configuration(DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 
     static {
         CONFIGURATION.setTemplateLoader(new ClassTemplateLoader(Freemarker.class, TEMPLATE_PATH_PREFIX));
-        CONFIGURATION.setTemplateUpdateDelay(Integer.MAX_VALUE);
+        CONFIGURATION.setTemplateUpdateDelayMilliseconds(1000L * Integer.MAX_VALUE);
     }
 
     private Freemarker() {
