@@ -14,13 +14,19 @@ buildscript {
 
     dependencies {
         classpath "com.netflix.nebula:gradle-extra-configurations-plugin:3.0.2"
+        classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.9.0'
+        classpath 'pl.allegro.tech.build:axion-release-plugin:1.7.1'
     }
 }
 
-subprojects {
-    group 'com.github.lizardev'
-    version '0.8-SNAPSHOT'
+apply plugin: "pl.allegro.tech.build.axion-release"
+apply plugin: 'io.codearte.nexus-staging'
 
+allprojects {
+    group 'com.github.lizardev'
+}
+
+subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'nebula.provided-base'
