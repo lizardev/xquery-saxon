@@ -14,14 +14,22 @@ buildscript {
 
     dependencies {
         classpath "com.netflix.nebula:gradle-extra-configurations-plugin:3.0.2"
+        classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.9.0'
+        classpath 'pl.allegro.tech.build:axion-release-plugin:1.7.1'
     }
 }
 
-subprojects {
-    group 'com.github.lizardev'
-    version '0.8-SNAPSHOT'
+apply plugin: "pl.allegro.tech.build.axion-release"
+apply plugin: 'io.codearte.nexus-staging'
 
+allprojects {
+    group 'com.github.lizardev'
+    project.version = scmVersion.version
+}
+
+subprojects {
     apply plugin: 'java'
+    apply plugin: 'signing'
     apply plugin: 'maven'
     apply plugin: 'nebula.provided-base'
 
@@ -73,39 +81,58 @@ subprojects {
         options.compilerArgs << '-Xlint:all'
     }
 
-    install {
-        repositories.mavenInstaller {
-            pom.whenConfigured { generatedPom ->
-                generatedPom.dependencies.removeAll { d ->
-                    d.scope == "test"
+    signing {
+        required { gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
+                    authentication(userName: project.properties['nexusUsername'], password: project.properties['nexusPassword'])
                 }
-                generatedPom.dependencies = generatedPom.dependencies.sort { d ->
-                    "$d.scope:$d.groupId:$d.artifactId"
+                snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+                    authentication(userName: project.properties['nexusUsername'], password: project.properties['nexusPassword'])
                 }
-                generatedPom.project {
-                    name = project.description
-                    description = project.description
-                    url = 'https://github.com/lizardev/xquery-saxon'
-                    licenses {
-                        license {
-                            name = 'Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                            distribution = 'repo'
-                        }
-                    }
-                    developers {
-                        developer {
-                            name = 'Adam Laczynski'
-                            organizationUrl = 'https://github.com/lizardev'
-                        }
-                        developer {
-                            name = 'Michal Jedynak'
-                        }
-                    }
-                    scm {
-                        url = 'https://github.com/lizardev/xquery-saxon'
-                    }
+            }
+        }
+    }
+
+    def installer = install.repositories.mavenInstaller
+    def deployer = uploadArchives.repositories.mavenDeployer
+
+    [installer, deployer]*.pom*.whenConfigured { pom ->
+        pom.dependencies.removeAll { d ->
+            d.scope == "test"
+        }
+        pom.dependencies = pom.dependencies.sort { d ->
+            "$d.scope:$d.groupId:$d.artifactId"
+        }
+        pom.project {
+            name = project.description
+            description = project.description
+            url = 'https://github.com/lizardev/xquery-saxon'
+            licenses {
+                license {
+                    name = 'Apache License, Version 2.0'
+                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution = 'repo'
                 }
+            }
+            developers {
+                developer {
+                    name = 'Adam Laczynski'
+                    organizationUrl = 'https://github.com/lizardev'
+                }
+                developer {
+                    name = 'Michal Jedynak'
+                }
+            }
+            scm {
+                url = 'https://github.com/lizardev/xquery-saxon'
             }
         }
     }
