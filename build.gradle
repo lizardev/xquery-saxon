@@ -24,6 +24,7 @@ apply plugin: 'io.codearte.nexus-staging'
 
 allprojects {
     group 'com.github.lizardev'
+    project.version = scmVersion.version
 }
 
 subprojects {
@@ -79,39 +80,51 @@ subprojects {
         options.compilerArgs << '-Xlint:all'
     }
 
-    install {
-        repositories.mavenInstaller {
-            pom.whenConfigured { generatedPom ->
-                generatedPom.dependencies.removeAll { d ->
-                    d.scope == "test"
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
+                    authentication(userName: project.properties['nexusUsername'], password: project.properties['nexusPassword'])
                 }
-                generatedPom.dependencies = generatedPom.dependencies.sort { d ->
-                    "$d.scope:$d.groupId:$d.artifactId"
+                snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+                    authentication(userName: project.properties['nexusUsername'], password: project.properties['nexusPassword'])
                 }
-                generatedPom.project {
-                    name = project.description
-                    description = project.description
-                    url = 'https://github.com/lizardev/xquery-saxon'
-                    licenses {
-                        license {
-                            name = 'Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                            distribution = 'repo'
-                        }
-                    }
-                    developers {
-                        developer {
-                            name = 'Adam Laczynski'
-                            organizationUrl = 'https://github.com/lizardev'
-                        }
-                        developer {
-                            name = 'Michal Jedynak'
-                        }
-                    }
-                    scm {
-                        url = 'https://github.com/lizardev/xquery-saxon'
-                    }
+            }
+        }
+    }
+
+    def installer = install.repositories.mavenInstaller
+    def deployer = uploadArchives.repositories.mavenDeployer
+
+    [installer, deployer]*.pom*.whenConfigured { pom ->
+        pom.dependencies.removeAll { d ->
+            d.scope == "test"
+        }
+        pom.dependencies = pom.dependencies.sort { d ->
+            "$d.scope:$d.groupId:$d.artifactId"
+        }
+        pom.project {
+            name = project.description
+            description = project.description
+            url = 'https://github.com/lizardev/xquery-saxon'
+            licenses {
+                license {
+                    name = 'Apache License, Version 2.0'
+                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution = 'repo'
                 }
+            }
+            developers {
+                developer {
+                    name = 'Adam Laczynski'
+                    organizationUrl = 'https://github.com/lizardev'
+                }
+                developer {
+                    name = 'Michal Jedynak'
+                }
+            }
+            scm {
+                url = 'https://github.com/lizardev/xquery-saxon'
             }
         }
     }
