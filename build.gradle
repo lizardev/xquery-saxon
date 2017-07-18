@@ -65,20 +65,13 @@ subprojects {
         from javadoc.destinationDir
     }
 
-    if (project.hasProperty('release')) {
-        artifacts {
-            archives sourcesJar
-            archives javadocJar
-        }
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
     }
 
     tasks.withType(JavaCompile) {
         options.compilerArgs << '-Xlint:all'
-    }
-
-    signing {
-        required { gradle.taskGraph.hasTask("uploadArchives") }
-        sign configurations.archives
     }
 
     uploadArchives {
@@ -94,6 +87,11 @@ subprojects {
                 }
             }
         }
+    }
+
+    signing {
+        required { gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
     }
 
     def installer = install.repositories.mavenInstaller
