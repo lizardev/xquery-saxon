@@ -1,6 +1,9 @@
 dist: precise
 sudo: false
 language: java
+jdk:
+    - openjdk7
+    - oraclejdk8
 
 install: /bin/true
 
