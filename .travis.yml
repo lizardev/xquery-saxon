@@ -1,7 +1,12 @@
+dist: precise
+sudo: false
 language: java
+jdk:
+    - openjdk7
+    - oraclejdk8
 
 install: /bin/true
 
-script: ./gradlew clean build
-
 before_script: chmod +x gradlew
+
+script: ./gradlew clean build
