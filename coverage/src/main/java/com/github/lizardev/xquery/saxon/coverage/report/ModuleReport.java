@@ -3,13 +3,15 @@ package com.github.lizardev.xquery.saxon.coverage.report;
 import com.github.lizardev.xquery.saxon.coverage.ModuleUri;
 import com.google.common.collect.ImmutableList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ModuleReport {
+public class ModuleReport implements Serializable {
 
+    private static final long serialVersionUID = 1;
     private final ModuleUri moduleUri;
     private final List<LineReport> lineReports;
 

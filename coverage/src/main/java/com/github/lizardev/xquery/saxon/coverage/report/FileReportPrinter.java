@@ -1,7 +1,5 @@
 package com.github.lizardev.xquery.saxon.coverage.report;
 
-import com.github.lizardev.xquery.saxon.coverage.SystemProperties;
-
 import java.io.File;
 import java.util.List;
 
@@ -13,15 +11,19 @@ import static com.google.common.collect.Lists.newArrayList;
 public class FileReportPrinter implements ReportPrinter {
 
     public static final String REPORT_INDEX = "index.html";
-    public static final String DEFAULT_REPORT_DIR = "target/xquery-saxon-coverage";
 
-    private File baseDir = new File(new SystemProperties().getCoverageReportDirectory().or(DEFAULT_REPORT_DIR));
+    private final File reportDir;
     private HtmlModuleReportGenerator moduleReportGenerator = new HtmlModuleReportGenerator();
     private HtmlModuleReportIndexGenerator moduleReportIndexGenerator = new HtmlModuleReportIndexGenerator();
     private StaticResourceTransferor resourceTransferor = new StaticResourceTransferor();
 
-    @Override public void print(Report report) {
-        deleteDir(baseDir);
+    public FileReportPrinter(File reportDir) {
+        this.reportDir = reportDir;
+    }
+
+    @Override
+    public void print(Report report) {
+        deleteDir(reportDir);
         List<ModuleReportReference> moduleReportReferences = newArrayList();
         for (ModuleReport moduleReport : report.getModuleReports()) {
             File file = getHtmlModuleReportFile(moduleReport);
@@ -29,11 +31,11 @@ public class FileReportPrinter implements ReportPrinter {
                     moduleReport.getModuleUri().toString(), file.getName(), moduleReport.getLineCoverage()));
             write(file, moduleReportGenerator.generate(moduleReport));
         }
-        write(new File(baseDir, REPORT_INDEX), moduleReportIndexGenerator.generate(moduleReportReferences));
-        resourceTransferor.copyResources(baseDir);
+        write(new File(reportDir, REPORT_INDEX), moduleReportIndexGenerator.generate(moduleReportReferences));
+        resourceTransferor.copyResources(reportDir);
     }
 
     private File getHtmlModuleReportFile(ModuleReport moduleReport) {
-        return new File(baseDir, uriToFilename(moduleReport.getModuleUri().getUri()) + ".html");
+        return new File(reportDir, uriToFilename(moduleReport.getModuleUri().getUri()) + ".html");
     }
 }

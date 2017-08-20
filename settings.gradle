@@ -1,3 +1,5 @@
 rootProject.name = 'xquery-saxon'
-include 'support'
+
 include 'coverage'
+include 'gradle-integration-test'
+include 'support'

@@ -1,16 +1,28 @@
 package com.github.lizardev.xquery.saxon.coverage.report;
 
-import com.google.common.collect.FluentIterable;
 import com.github.lizardev.xquery.saxon.coverage.ModuleUri;
+import com.google.common.collect.FluentIterable;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
-public class Report {
+public class Report implements Serializable {
+
+    private static final long serialVersionUID = 1;
+    private final String id = UUID.randomUUID().toString();
 
     private Map<ModuleUri, ModuleReport> moduleReports = new HashMap<>();
+
+    public void merge(Report report) {
+        for (ModuleReport moduleReport : report.getModuleReports()) {
+            addOrMergeModuleReport(moduleReport);
+        }
+    }
 
     public void addOrMergeModuleReport(ModuleReport moduleReport) {
         ModuleUri moduleUri = moduleReport.getModuleUri();
@@ -34,5 +46,26 @@ public class Report {
                         return o1.getModuleUri().toString().compareTo(o2.getModuleUri().toString());
                     }
                 });
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Report)) {
+            return false;
+        }
+        Report report = (Report) o;
+        return Objects.equals(id, report.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

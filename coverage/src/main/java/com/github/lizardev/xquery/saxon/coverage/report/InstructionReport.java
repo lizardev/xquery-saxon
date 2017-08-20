@@ -2,11 +2,14 @@ package com.github.lizardev.xquery.saxon.coverage.report;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
-public class InstructionReport {
+public class InstructionReport implements Serializable {
 
+    private static final long serialVersionUID = 1;
     private final String instruction;
     private final boolean covered;
 

@@ -20,9 +20,13 @@ apply plugin: 'io.codearte.nexus-staging'
 allprojects {
     group 'com.github.lizardev'
     project.version = scmVersion.version
+
+    repositories {
+        mavenCentral()
+    }
 }
 
-subprojects {
+configure(subprojects.findAll {it.name != 'gradle-integration-test'}) {
     apply plugin: 'java'
     apply plugin: 'signing'
     apply plugin: 'maven'
@@ -31,10 +35,6 @@ subprojects {
     archivesBaseName = "$rootProject.name-$name"
     sourceCompatibility = '1.7'
     targetCompatibility = '1.7'
-
-    repositories {
-        mavenCentral()
-    }
 
     ext {
         saxonVersion = '9.6.0-7'

@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.google.guava:guava:18.0'
+        classpath files('lib/xquery-saxon-coverage-0.8.1-SNAPSHOT.jar')
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+
+sourceSets {
+    test {
+        resources {
+            srcDir 'src/test/xquery'
+        }
+    }
+}
+
+dependencies {
+    testCompile project(':support')
+    testCompile project(':coverage')
+    testCompile project(':coverage').sourceSets.test.output
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:1.7.0'
+}
+
+test {
+    systemProperties = [
+            'xquery.saxon.coverage'                            : '',
+            'xquery.saxon.coverage.report.bin.save.on.shutdown': '',
+    ]
+    maxParallelForks = 2
+}
+
+test.doFirst {
+    file('build/reports/xquery-saxon-coverage').deleteDir()
+}
+
+test.doLast {
+    def reportRepository = new com.github.lizardev.xquery.saxon.coverage.report.ReportRepository(
+            file('build/reports/xquery-saxon-coverage/bin'))
+    def report = new com.github.lizardev.xquery.saxon.coverage.report.Report()
+    def reports = reportRepository.readAll()
+    assert reports.size() == 2
+    reports.each {
+        report.merge(it)
+    }
+    assert report.moduleReports.size() == 1
+    def moduleReport = report.moduleReports.first()
+    assert moduleReport.moduleUri.toString().endsWith('TwoBranches.xq')
+    assert moduleReport.fullyCovered
+}
