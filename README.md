@@ -17,5 +17,6 @@
 ## IDE integration
 Provide Java system properties
 * `-Dxquery.saxon.coverage` - enables coverage collection
-* `-Dxquery.saxon.coverage.report.printing.on.shutdown` - prints coverage reports on JVM shutdown in report directory
-* `-Dxquery.saxon.coverage.report.directory` - report directory, default value is `target/xquery-saxon-coverage`
+* `-Dxquery.saxon.coverage.report.bin.save.on.shutdown` - saves binary coverage report on JVM shutdown in report directory
+* `-Dxquery.saxon.coverage.report.html.save.on.shutdown` - saves HTML coverage report on JVM shutdown in report directory
+* `-Dxquery.saxon.coverage.report.dir` - report directory, default value is `build/reports/xquery-saxon-coverage`

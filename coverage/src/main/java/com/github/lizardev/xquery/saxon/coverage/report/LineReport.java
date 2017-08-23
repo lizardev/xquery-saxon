@@ -3,6 +3,7 @@ package com.github.lizardev.xquery.saxon.coverage.report;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,8 +11,9 @@ import java.util.Objects;
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
-public class LineReport {
+public class LineReport implements Serializable {
 
+    private static final long serialVersionUID = 1;
     private final int lineNumber;
     private final List<InstructionReport> instructionReports;
     private final String sourceCodeLine;

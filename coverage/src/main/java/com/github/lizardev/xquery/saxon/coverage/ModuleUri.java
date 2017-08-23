@@ -1,11 +1,13 @@
 package com.github.lizardev.xquery.saxon.coverage;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Objects;
 
 import static com.github.lizardev.xquery.saxon.coverage.util.UriUtils.urlToUri;
 
-public class ModuleUri {
+public class ModuleUri implements Serializable {
+    private static final long serialVersionUID = 1;
     private final URI uri;
 
     public ModuleUri(URI uri) {

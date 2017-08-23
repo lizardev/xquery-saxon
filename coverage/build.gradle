@@ -1,4 +1,5 @@
 description 'XQuery Saxon Coverage'
+apply plugin: 'groovy'
 
 dependencies {
     compile project(':support')
@@ -13,6 +14,8 @@ dependencies {
     testCompile 'com.github.stefanbirkner:system-rules:1.15.1'
     testCompile 'org.mockito:mockito-all:1.10.8'
     testCompile 'org.seleniumhq.selenium:selenium-java:2.45.0'
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.12'
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
 }
 
 sourceSets {
